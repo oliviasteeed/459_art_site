@@ -1,4 +1,5 @@
 # IAT 459 Final Project: ARTEXPLORE Art Website
+Olivia Steed and Mackenzie Scholz 
 
 Our website allows people to explore artworks and artifacts included in the Metropolitan Museum of Art’s open data collection of 470,000 artworks.  
 

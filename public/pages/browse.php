@@ -34,6 +34,7 @@ require('header.php');
 
 
 
+    //use jquery instead for this or add a submit button to medium filters
     if(is_post_request()){ //if filters have been submitted
         //save filters in session
         $_SESSION['mediums_selected'] = $_POST['medium'];
@@ -76,15 +77,14 @@ echo "<h1>i'm interested in...</h1>";
 //create tags for each medium
 echo "<h3>medium</h3>";
 
-echo "<form action='browse.php' method='post'>";
+echo "<form class='h-box' action='browse.php' method='post'>";
 foreach($mediums_array as $m){
     create_tag($m);
 }
+echo "<input class='circle-button' type='submit' value='go >'/>";
 echo "</form>";
 
 echo "<h4>artwork details</h4>";
-
-echo "<form action='browse.php' method='post'>";
 echo create_select_input("artist", $artists_array);
 echo create_select_input("department", $department_array);
 echo create_select_input("city", $city_array);
@@ -92,7 +92,6 @@ echo create_select_input("state", $state_array);
 echo create_select_input("country", $country_array);
 echo create_select_input("accession-year", $accession_year_array);
 echo create_select_input("culture", $culture_array);
-echo "</form>";
 
 // need to use jquery to see when clicked on, save in session, do something, initiate filter by
 
@@ -125,52 +124,8 @@ function create_object_card($object_information){
 $test_artwork_info = ['object_id' => 1, 'object_title' => "It's Art", 'artist_id' => 'Boberta Bobbert', 'medium' => 'code on computer screen', 'dimensions' => '1280x920', 'image' => 'https://media.timeout.com/images/106006274/1920/1440/image.webp'];
 
 create_object_card($test_artwork_info);
-
-echo"
-
-<div class='artwork-box'>
-
-<div class='v-box art-container' onclick='location.href='artwork.php';'>
-
-    <div class='img-container'>
-    <img class='browse-image' src='https://media.timeout.com/images/106006274/1920/1440/image.webp'>
-    </div>
-    
-    <h3>Artwork Name</h3>
-    <p>Artist</p>
-    <p>Medium</p>
-
-</div>
-
-<div class='v-box art-container' onclick='location.href='artwork.php';'>
-
-    <div class='img-container'>
-    <img class='browse-image' src='https://media.timeout.com/images/106006274/1920/1440/image.webp'>
-    </div>
-    
-    <h3>Artwork Name</h3>
-    <p>Artist</p>
-    <p>Medium</p>
-
-</div>
-
-<div class='v-box art-container' onclick='location.href='artwork.php';'>
-
-    <div class='img-container'>
-    <img class='browse-image' src='https://media.timeout.com/images/106006274/1920/1440/image.webp'>
-    </div>
-    
-    <h3>Artwork Name</h3>
-    <p>Artist</p>
-    <p>Medium</p>
-
-</div>
-
-</div>
-
-
-
-";
+create_object_card($test_artwork_info);
+create_object_card($test_artwork_info);
 
 
 
