@@ -43,7 +43,7 @@ require('header.php');
 
             // get artworks with this medium from db
             $artworks = getArtworks($selected_mediums);
-            print_r($artworks);
+            // print_r($artworks);
             
         } else {    //clear anything saved
             // echo "No medium selected, session cleared";
@@ -54,6 +54,56 @@ require('header.php');
     }else{
         $artworks = getArtworks($mediums_array);    //get all artworks if no filters applied
     }
+
+    // check if secondary filters are set, if so add to query string, at the end make a query with it
+    $secondary_filters = [];
+    $artist = "";
+    $department = "";
+    $city = "";
+    $state = "";
+    $country = "";
+    $accession_year = "";
+    $culture = "";
+
+    if(isset($_SESSION['artist_id'])){
+        $secondary_filters['artist_id'] = $_SESSION['artist_id'];    
+    }
+    if(isset($_SESSION['department'])){
+        $secondary_filters['department'] = $_SESSION['department'];
+    }
+    if(isset($_SESSION['city'])){
+        $secondary_filters['city'] = $_SESSION['city'];
+    }
+    if(isset($_SESSION['state'])){
+        $secondary_filters['state'] = $_SESSION['state'];
+    }
+    if(isset($_SESSION['country'])){
+        $secondary_filters['country'] = $_SESSION['country'];
+    }
+    if(isset($_SESSION['accession-year'])){
+        $secondary_filters['accession_year'] = $_SESSION['accession-year'];
+    }
+    if(isset($_SESSION['culture'])){
+        $secondary_filters['culture'] = $_SESSION['culture'];
+    }
+
+    //TODO: integrate this better with the main filters
+    // query again
+    $session_mediums = [];
+    if(isset($_SESSION['medium'])){
+        $session_mediums = $_SESSION['medium']; // saved medium selections from session
+    }
+    else{
+        $session_mediums = $mediums_array;  //array of all mediums
+    }
+
+    $filtered_artworks = getArtworksFiltered($session_mediums, $secondary_filters);    
+
+    print_r($filtered_artworks);
+
+
+
+
 
 
 

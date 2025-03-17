@@ -50,7 +50,7 @@ function create_tag($tagname, $selected_mediums) {
 
   //create select dropdown component
 function create_select_input($name, $options) {
-  echo "<select class=\"button\" id=\"$name\" name=\"$name\">\n"; 
+  echo "<select class='button select-filter' id=\"$name\" name=\"$name\">\n"; 
   $i = 0;
   foreach($options as $o) {
       create_select_option($options[$i++], $o, $name);

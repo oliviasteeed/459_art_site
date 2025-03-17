@@ -73,6 +73,85 @@
         return $artworks;
     }
 
+    //get artworks from database based on selected mediums AND SECONDARY FILTERS (browse.php)
+    function getArtworksFiltered($selected_mediums, $secondary_filters){
+        global $db;
+    
+        //TODO: make this work
+
+        // $query_filter_string = "";
+
+        // if(isset($secondary_filters['artist_id'])){
+        //     $query_filter_string .= " AND artist_id = " . $secondary_filters['artist'];
+        // }   
+        // if(isset($secondary_filters['department'])){
+        //     $query_filter_string .= "AND department = " . $secondary_filters['department'];
+        // }   
+        // if(isset($secondary_filters['city'])){
+        //     $query_filter_string .= "AND city = " . $secondary_filters['city'];
+        // }  
+        // if(isset($secondary_filters['state'])){
+        //     $query_filter_string .= "AND s†ate = " . $secondary_filters['s†ate'];
+        // }  
+        // if(isset($secondary_filters['country'])){
+        //     $query_filter_string .= "AND country = " . $secondary_filters['country'];
+        // } 
+        // if(isset($secondary_filters['accession_year'])){
+        //     $query_filter_string .= "accession_year = " . $secondary_filters['accession_year'];
+        // } 
+        // if(isset($secondary_filters['culture'])){
+        //     $query_filter_string .= "culture = " . $secondary_filters['culture'];
+        // } 
+
+        // // create '?' placeholders for each selected medium
+        // $placeholders = implode(',', array_fill(0, count($selected_mediums), '?')); 
+
+        // $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
+        //         FROM MetObjects 
+        //         WHERE medium IN ($placeholders) AND $query_filter_string;";
+
+        // $stmt = $db->prepare($query);
+        // $types = str_repeat('s', count($selected_mediums)); // 'sss...' for multiple strings
+        // $stmt->bind_param($types, ...$selected_mediums);
+
+        // Create '?' placeholders for each selected medium
+    $placeholders = implode(',', array_fill(0, count($selected_mediums), '?'));
+
+    // Base SQL Query
+    $sql = "SELECT object_id, title, artist_id, medium, dimensions, image_src FROM MetObjects WHERE medium IN ($placeholders)";
+
+    // Handle secondary filters
+    $params = $selected_mediums;
+    if (!empty($secondary_filters)) {
+        foreach ($secondary_filters as $key => $value) {
+            $sql .= " AND $key = ?";
+            $params[] = $value;
+        }
+    }
+
+    // Prepare and execute query
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param(str_repeat("s", count($params)), ...$params); // 's' for each parameter
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+        // $stmt->execute();
+        // $result = $stmt->get_result();
+
+        $artworks = [];
+            
+        while ($row = $result->fetch_assoc()) { //save details as an associative array
+            $artworks[] = [
+            'object_id' => $row['object_id'], 
+            'title' => $row['title'], 
+            'artist_id' => $row['artist_id'], 
+            'medium' => $row['medium'], 
+            'dimensions' => $row['dimensions'],
+            'image_src' => $row['image_src']
+        ];}
+        return $artworks;
+    }
+
 
 
 
