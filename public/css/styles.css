@@ -75,6 +75,15 @@ a{
     background: #FF5C00;
 }
 
+.fave-button:hover {
+    background: #FF5C00;
+}
+
+/* for fave button that appears on hover */
+.hidden{
+    display:none;
+}
+
 
 
 
@@ -111,6 +120,12 @@ a{
 .button:hover {
     background: blue;
     color:white;
+}
+
+/* Active/selected state (for filter buttons) */
+.button.selected {
+    background: blue;
+    color: white;
 }
 
 

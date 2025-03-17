@@ -33,13 +33,24 @@ function display_errors($errors=array()) {
 
   // UI FUNCTIONS
 
-  function create_tag($tagname){
-    echo "<button name='medium' class='button'>$tagname</button>";
+//   function create_tag($tagname){
+//     echo "<button name='medium' class='button'>$tagname</button>";
+// }
+
+// Function to create tag buttons
+function create_tag($tagname, $selected_mediums) {
+
+  $selected_marker = "";
+  if(in_array($tagname, $selected_mediums)){  //if this tag is selected, add selected tag
+    $selected_marker = "selected";
+  }
+  echo "<button type='button' class='tag-button button $selected_marker' data-value='$tagname'>$tagname</button>";
 }
+
 
   //create select dropdown component
 function create_select_input($name, $options) {
-  echo "<select class=\"button\" name=\"$name\">\n"; 
+  echo "<select class=\"button\" id=\"$name\" name=\"$name\">\n"; 
   $i = 0;
   foreach($options as $o) {
       create_select_option($options[$i++], $o, $name);
@@ -59,7 +70,7 @@ function create_select_option($option_name, $o, $name) {
 
 
 
-//creates text input component
+//creates text input component (not used for now because why)
 function create_text_input($label, $name) {
 
   echo "<label for='name'>$label</label>";

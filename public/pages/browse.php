@@ -32,12 +32,33 @@ require('header.php');
     $culture_array = getDbColumn('culture', 'MetObjects');
     $culture_array[0] = "select culture"; 
 
+    $selected_mediums = []; //initialize empty array for which mediums tag buttons are selected
+    $artworks = []; //initialize empty array for artworks (by medium)
+
+    if(is_post_request()){ //if medium filters have been submitted
+
+        if(isset($_POST['medium'])){
+            $selected_mediums = $_POST['medium']; // get user input
+            $_SESSION['medium'] = $selected_mediums;
+
+            // get artworks with this medium from db
+            $artworks = getArtworks($selected_mediums);
+            print_r($artworks);
+            
+        } else {    //clear anything saved
+            // echo "No medium selected, session cleared";
+            $_SESSION['medium'] = [];
+            $artworks = getArtworks($mediums_array);    //get all artworks if no filters applied
+            // print_r($artworks);
+        }
+    }else{
+        $artworks = getArtworks($mediums_array);    //get all artworks if no filters applied
+    }
 
 
-    //use jquery instead for this or add a submit button to medium filters
-    if(is_post_request()){ //if filters have been submitted
-        //save filters in session
-        $_SESSION['mediums_selected'] = $_POST['medium'];
+
+        // $_SESSION['mediums_selected'] = $_POST['medium'];
+
         // $_SESSION['artist_selected'] = $_POST['artist'];
         // $_SESSION['department_selected'] = $_POST['department'];
         // $_SESSION['city_selected'] = $_POST['city'];
@@ -46,28 +67,31 @@ require('header.php');
         // $_SESSION['accession_year_selected'] = $_POST['accession_year'];
         // $_SESSION['culture_selected'] = $_POST['culture'];
 
-        $medium = $_POST['medium']; // Get user input
+        // $mediums = $_POST['medium']; // Get user input
 
-        // Prepare statement
-        $stmt = $db->prepare("SELECT title, artist_id, medium, dimensions FROM MetObjects WHERE medium = ?");
-        $stmt->bind_param("s", $medium); // Bind as a string
+        // $mediums_string = implode(", ", $mediums);
+        // echo $mediums;
 
-        // Execute and fetch results
-        $stmt->execute();
-        $result = $stmt->get_result();
+//         // Prepare statement
+//         $stmt = $db->prepare("SELECT title, artist_id, medium, dimensions FROM MetObjects WHERE medium IN (?)");
+//         $stmt->bind_param("s", $mediums_string); // Bind as a string
 
-        $artworks = []; // initialize an empty array
+//         // Execute and fetch results
+//         $stmt->execute();
+//         $result = $stmt->get_result();
 
-        while ($row = $result->fetch_assoc()) { //save details as an associative array
-            $artworks[] = [
-            'title' => $row['title'], 
-            'artist_id' => $row['artist_id'], 
-            'medium' => $row['medium'], 
-            'dimensions' => $row['dimensions']
-    ];
-}
+//         $artworks = []; // initialize an empty array
 
-    }
+//         while ($row = $result->fetch_assoc()) { //save details as an associative array
+//             $artworks[] = [
+//             'title' => $row['title'], 
+//             'artist_id' => $row['artist_id'], 
+//             'medium' => $row['medium'], 
+//             'dimensions' => $row['dimensions']
+//     ];
+// }
+
+    // }
 
 
 // ACTUAL UI
@@ -75,12 +99,23 @@ require('header.php');
 echo "<h1>i'm interested in...</h1>";
 
 //create tags for each medium
-echo "<h3>medium</h3>";
+echo "<h4>medium</h4>";
 
+// form for medium filters
 echo "<form class='h-box' action='browse.php' method='post'>";
 foreach($mediums_array as $m){
-    create_tag($m);
+    create_tag($m, $selected_mediums);
 }
+// hidden input container for storing selected medium tags (since they are buttons not form elements)
+echo "<div id='selected-tags'>";
+
+if(isset($_SESSION['medium'])){    //put selected tags in post request always
+    foreach($_SESSION['medium'] as $m){
+        echo "<input type='hidden' name='medium[]' value='$m'>";
+    }
+}
+echo "</div>";
+
 echo "<input class='circle-button' type='submit' value='go >'/>";
 echo "</form>";
 
@@ -101,33 +136,45 @@ echo create_select_input("culture", $culture_array);
 
 function create_object_card($object_information){
     $id = $object_information['object_id'];
-    $title = $object_information['object_title'];
+    $title = $object_information['title'];
     $artist_id = $object_information['artist_id'];
     $medium = $object_information['medium'];
     $dimensions = $object_information['dimensions'];
-    $image = $object_information['image'];
 
-    echo "<div class='artwork-box'>";
-    echo "<div class='v-box art-container' onclick='location.href='object-details.php?object_id=' . urlencode($id)';'>";
+    $image = $object_information['image_src'];
+    echo "<div class='v-box art-container' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
     echo "<div class='img-container'>";
     echo "<img class='browse-image' src='$image'>";
     echo "</div>";
     
-    echo "<h3>$title</h3>";
-    echo "<p>$artist_id</p>";
-    echo "<p>$medium".", ("."$dimensions</p>".")";
+    echo "<div class='h-box'>";
 
+    echo "<div class='v-box flex-2'>";
+    echo "<h4>$title</h4>";
+    echo "<p>$artist_id</p>";
+    echo "<p>$medium</p>";
+    echo "<p>($dimensions)</p>";
+    echo "</div>";
+
+    // favourite button only visible if you are logged in
+    echo "<div class='v-box flex-1'>";
+    echo "<a class='circle-button fave-button hidden' href='../../private/favourite.php?object_id=" . urlencode($id) . "'>fave <3</a>";
+    echo "</div>";
+
+    //TODO: FIX FAVOURITING FUNCTIONALITY
+
+    echo "</div>";
     echo "</div>";
 }
 
-$test_artwork_info = ['object_id' => 1, 'object_title' => "It's Art", 'artist_id' => 'Boberta Bobbert', 'medium' => 'code on computer screen', 'dimensions' => '1280x920', 'image' => 'https://media.timeout.com/images/106006274/1920/1440/image.webp'];
 
-create_object_card($test_artwork_info);
-create_object_card($test_artwork_info);
-create_object_card($test_artwork_info);
-
-
+// create object cards for each artwork
+echo "<div class='artwork-box'>";
+foreach($artworks as $a){
+    create_object_card($a);
+}
+echo "</div>";
 
 
 

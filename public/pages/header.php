@@ -11,6 +11,16 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/layout.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    
+    <script src="../../private/js/filter-medium.js" type="text/javascript"></script>
+    <script src="../../private/js/filter-secondary.js" type="text/javascript"></script>
+
+    <?php if(isset($_SESSION['username'])) {  //if they are signed in, show fave button
+      echo "<script src='../../private/js/favourite.js' type='text/javascript'></script>";}
+    ?>
+    
   </head>
 
   <body>

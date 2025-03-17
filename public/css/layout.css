@@ -117,5 +117,13 @@ footer{
     gap: 0.5rem; 
     border: 1px solid orange; 
     align-items: flex-start; 
-    justify-content: space-between;
+    /* justify-content: space-between; */
+}
+
+.flex-1{
+    flex:1;
+}
+
+.flex-2{
+    flex:2;
 }
