@@ -52,6 +52,10 @@ footer{
     color:white;
 }
 
+.fave-artwork:hover {
+    background: #FF5C00;
+}
+
 .img-container {
     width: 300px; /* Set desired width */
     height: 200px; /* Set desired height */

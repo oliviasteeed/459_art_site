@@ -87,7 +87,7 @@ require('header.php');
         $secondary_filters['culture'] = $_SESSION['culture'];
     }
 
-    //TODO: integrate this better with the main filters
+    //TODO: integrate secondary filters better with the main filters (they currently do not work)
     // query again
     $session_mediums = [];
     if(isset($_SESSION['medium'])){
@@ -184,39 +184,8 @@ echo create_select_input("culture", $culture_array);
 
 // $_SESSION['mediums_selected'][] = $_POST['mediums_selected'];
 
-function create_object_card($object_information){
-    $id = $object_information['object_id'];
-    $title = $object_information['title'];
-    $artist_id = $object_information['artist_id'];
-    $medium = $object_information['medium'];
-    $dimensions = $object_information['dimensions'];
 
-    $image = $object_information['image_src'];
-    echo "<div class='v-box art-container' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
-    echo "<div class='img-container'>";
-    echo "<img class='browse-image' src='$image'>";
-    echo "</div>";
-    
-    echo "<div class='h-box'>";
-
-    echo "<div class='v-box flex-2'>";
-    echo "<h4>$title</h4>";
-    echo "<p>$artist_id</p>";
-    echo "<p>$medium</p>";
-    echo "<p>($dimensions)</p>";
-    echo "</div>";
-
-    // favourite button only visible if you are logged in
-    echo "<div class='v-box flex-1'>";
-    echo "<a class='circle-button fave-button hidden' href='../../private/favourite.php?object_id=" . urlencode($id) . "'>fave <3</a>";
-    echo "</div>";
-
-    //TODO: FIX FAVOURITING FUNCTIONALITY
-
-    echo "</div>";
-    echo "</div>";
-}
 
 
 // create object cards for each artwork

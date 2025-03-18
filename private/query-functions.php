@@ -28,7 +28,7 @@
         return $array;
     }
 
-      //get object information from database based on input id (object-details.php)
+      //insert new fave to db
       function insertFave($username, $object_id){
         global $db;
         $query_str = "INSERT INTO Member_Favourites (username, object_id) VALUES ('$username', $object_id)";
@@ -38,6 +38,42 @@
         else{
             return false;   //failure
         }
+    }
+
+    // remove selected fave from db
+    function removeFave($username, $object_id){
+        global $db;
+        $query_str = "DELETE FROM Member_Favourites WHERE username = '$username' AND object_id = $object_id";
+        if ($db->query($query_str)){
+            return true;    //success
+        }
+        else{
+            return false;   //failure
+        }
+    }
+
+    //get artworks from database based on selected mediums (browse.php)
+    function getFaveArtworks($username){
+        global $db;
+
+        $query_str = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
+        FROM MetObjects 
+        WHERE object_id IN (SELECT object_id FROM Member_Favourites WHERE username = '$username');";
+
+        $result = $db->query($query_str); 
+
+        $artworks = [];
+            
+        while ($row = $result->fetch_assoc()) { //save details as an associative array
+            $artworks[] = [
+            'object_id' => $row['object_id'], 
+            'title' => $row['title'], 
+            'artist_id' => $row['artist_id'], 
+            'medium' => $row['medium'], 
+            'dimensions' => $row['dimensions'],
+            'image_src' => $row['image_src']
+        ];}
+        return $artworks;
     }
 
 
@@ -73,6 +109,7 @@
         return $artworks;
     }
 
+    //TODO: make this work
     //get artworks from database based on selected mediums AND SECONDARY FILTERS (browse.php)
     function getArtworksFiltered($selected_mediums, $secondary_filters){
         global $db;
