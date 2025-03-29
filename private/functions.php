@@ -47,26 +47,30 @@ function create_tag($tagname, $selected_mediums) {
   echo "<button type='button' class='tag-button button $selected_marker' data-value='$tagname'>$tagname</button>";
 }
 
-
-  //create select dropdown component
+// create select dropdown component
 function create_select_input($name, $options) {
-  echo "<select class='button select-filter' id=\"$name\" name=\"$name\">\n"; 
+  echo "<select class='button select-filter' id=\"$name\" name=\"$name\">\n";
+  
   $i = 0;
-  foreach($options as $o) {
+  foreach ($options as $o) {
       create_select_option($options[$i++], $o, $name);
   }
+  
   echo "</select>\n";
 }
 
-//create individual select dropdown options
+// create individual select dropdown options
 function create_select_option($option_name, $o, $name) {
-  $selected = '';  //get select value to keep selected
-  if (isset($_POST[$name]) && $_POST[$name] == $o){
+  $selected = '';  // Set selected value if stored in session
+  if (isset($_SESSION[$name]) && $_SESSION[$name] == $o) {
       $selected = 'selected';
   }
-  echo "<option value=\"$o\" ";
-  echo "$selected>$option_name</option>\n";
+  
+  echo "<option value=\"$o\" $selected>$option_name</option>\n";
 }
+
+
+
 
 function create_object_card($object_information){
   $id = $object_information['object_id'];
