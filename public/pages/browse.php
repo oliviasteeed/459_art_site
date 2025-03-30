@@ -16,8 +16,11 @@ require('header.php');
     $artists_array = getDbColumn('artist_id', 'MetObjects'); 
     $artists_array[0] = "select artist"; 
 
-    $department_array = getDbColumn('dimensions', 'MetObjects');
+    $department_array = getDbColumn('department', 'MetObjects');
     $department_array[0] = "select department"; 
+
+    // $dimensions_array = getDbColumn('dimensions', 'MetObjects');
+    // $dimensions_array[0] = "select dimensions"; 
 
     $city_array = getDbColumn('city', 'MetObjects');
     $city_array[0] = "select city";
@@ -35,27 +38,45 @@ require('header.php');
     $culture_array[0] = "select culture"; 
 
     $selected_mediums = []; //initialize empty array for which mediums tag buttons are selected
+    
+    $secondary_filters = [
+        'artist_id' => $_SESSION['artist_id'] ?? null,
+        'department' => $_SESSION['department'] ?? null,
+        'city' => $_SESSION['city'] ?? null,
+        'state' => $_SESSION['state'] ?? null,
+        'country' => $_SESSION['country'] ?? null,
+        'accession_year' => $_SESSION['accession_year'] ?? null,
+        'culture' => $_SESSION['culture'] ?? null,
+    ];
+
     $artworks = []; //initialize empty array for artworks (by medium)
 
     if(is_post_request()){ //if medium filters have been submitted
-
         if(isset($_POST['medium'])){
             $selected_mediums = $_POST['medium']; // get user input
             $_SESSION['medium'] = $selected_mediums;
 
+            $artworks = getArtworksFiltered($selected_mediums, $secondary_filters); // get artworks with this medium from db
+
             // get artworks with this medium from db
-            $artworks = getArtworks($selected_mediums);
+            // $artworks = getArtworks($selected_mediums);
             // print_r($artworks);
             
         } else {    //clear anything saved
             // echo "No medium selected, session cleared";
-            $_SESSION['medium'] = [];
-            $artworks = getArtworks($mediums_array);    //get all artworks if no filters applied
+            unset($_SESSION['medium']);
+            $artworks = getArtworksFiltered($mediums_array, $secondary_filters);    //get all artworks if no filters applied
             // print_r($artworks);
         }
     }else{
-        $artworks = getArtworks($mediums_array);    //get all artworks if no filters applied
+        $artworks = getArtworksFiltered($mediums_array, $secondary_filters);
+        // $artworks = getArtworks($mediums_array);    //get all artworks if no filters applied
     }
+
+    // Fetch filters from session
+// $mediums = isset($_SESSION['medium']) ? $_SESSION['medium'] : [];
+
+// $artworks = getArtworksFiltered($mediums, $secondary_filters);
 
 
 
@@ -102,7 +123,7 @@ echo create_select_input("culture", $culture_array);
 echo "</div>";
 
 echo "<div class='button-box flex-1'>";
-echo "<a class='circle-button' href='../../../private/reset-filters.php'>reset</a>";
+echo "<button class='circle-button' id='reset-button'>reset</button>";
 echo "</div>";
 
 echo "</div>";
@@ -119,7 +140,7 @@ echo "</div>";
 
 
 // create object cards for each artwork
-echo "<div class='artwork-box'>";
+echo "<div class='artwork-box' id='artwork-box'>";
 foreach($artworks as $a){
     create_object_card($a);
 }

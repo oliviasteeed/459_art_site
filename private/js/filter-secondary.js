@@ -1,35 +1,59 @@
 // handles secondary filters (dropdowns)
 
+
 $(document).ready(function () {
-    // When any filter is changed
-    $('.select-filter').change(function () {
-        var formData = {};
+    $(".select-filter").on("change", function () {
+        let selectedValue = $(this).val();
+        let filterName = $(this).attr("id");
 
-        // Get all selected filter values
-        $('.filter-select').each(function () {
-            var key = $(this).attr('name'); // Get the filter name
-            var value = $(this).val(); // Get the selected value
-            if (value !== "*" && value !== "") { // Ignore empty filters
-                formData[key] = value;
-            }
-        });
+        console.log("Filters Sent: ", filterName, selectedValue); // Debugging
 
-        console.log("Filters Sent: ", formData); // Debugging
-
-        // Send AJAX request to get filtered artworks
         $.ajax({
-            url: 'get-artworks.php', // PHP file that returns filtered artworks
-            type: 'POST',
-            data: formData,
+            url: "../../private/filter-secondary.php",
+            type: "POST",
+            data: { filter: filterName, value: selectedValue },
+
             success: function (response) {
-                $('.artwork-box').html(response); // Replace content with new artworks
-            },
-            error: function () {
-                alert('Error loading artworks.');
+                $("#artwork-box").html(response);
             }
         });
     });
 });
+
+
+
+
+// $(document).ready(function () {
+//     // When any filter is changed
+//     $('.select-filter').change(function () {
+//         var formData = {};
+
+//         // Get all selected filter values
+//         $('.filter-select').each(function () {
+//             var key = $(this).attr('name'); // Get the filter name
+//             var value = $(this).val(); // Get the selected value
+//             if (value !== "*" && value !== "") { // Ignore empty filters
+//                 formData[key] = value;
+//             }
+//         });
+
+//         console.log("Filters Sent: ", formData); // Debugging
+
+//         // Send AJAX request to get filtered artworks
+//         $.ajax({
+//             url: 'get-artworks.php', // PHP file that returns filtered artworks
+//             type: 'POST',
+//             data: formData,
+//             success: function (response) {
+//                 $('.artwork-box').html(response); // Replace content with new artworks
+//             },
+//             error: function () {
+//                 alert('Error loading artworks.');
+//             }
+//         });
+//     });
+// });
+
 
 // $(document).ready(function () {
 

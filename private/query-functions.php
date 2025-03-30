@@ -109,18 +109,65 @@
         return $artworks;
     }
 
-    // get artworks from database based on selected mediums AND SECONDARY FILTERS (used in get-artworks.php)
+    // // get artworks from database based on selected mediums AND SECONDARY FILTERS (used in get-artworks.php)
+    // function getArtworksFiltered($mediums, $filters) {
+    //     global $db;
+    
+    //     $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
+    //               FROM MetObjects 
+    //               WHERE 1=1"; // Ensures the query is always valid
+    
+    //     $params = [];
+    //     $types = "";
+    
+    //     // Apply medium filter from session
+    //     if (!empty($mediums)) {
+    //         $placeholders = implode(",", array_fill(0, count($mediums), "?"));
+    //         $query .= " AND medium IN ($placeholders)";
+    //         $params = array_merge($params, $mediums);
+    //         $types .= str_repeat("s", count($mediums));
+    //     }
+    
+    //     // Apply secondary filters dynamically
+    //     foreach ($filters as $column => $value) {
+    //         if (!empty($value) && $value !== "*") { 
+    //             // If a filter has a value, apply exact match
+    //             $query .= " AND $column = ?";
+    //             $params[] = $value;
+    //             $types .= "s";
+    //         }
+    //     }
+    
+    //     // Debugging: Print the final SQL query (before executing)
+    //     echo "Final Query: " . $query . "<br>";
+    //     echo "Parameters: " . json_encode($params) . "<br>";
+    
+    //     // Prepare and execute query
+    //     $stmt = $db->prepare($query);
+    //     if (!empty($params)) {
+    //         $stmt->bind_param($types, ...$params);
+    //     }
+    
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    
+    //     $artworks = [];
+    //     while ($row = $result->fetch_assoc()) {
+    //         $artworks[] = $row;
+    //     }
+    
+    //     return $artworks;
+    // }
+    
     function getArtworksFiltered($mediums, $filters) {
         global $db;
     
-        $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
-                  FROM MetObjects 
-                  WHERE 1=1"; // Ensures the query is always valid
+        $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src FROM MetObjects WHERE 1=1";
     
         $params = [];
         $types = "";
     
-        // Apply medium filter from session
+        // Medium filter
         if (!empty($mediums)) {
             $placeholders = implode(",", array_fill(0, count($mediums), "?"));
             $query .= " AND medium IN ($placeholders)";
@@ -128,21 +175,23 @@
             $types .= str_repeat("s", count($mediums));
         }
     
-        // Apply secondary filters dynamically
+        // Secondary filters
         foreach ($filters as $column => $value) {
-            if (!empty($value) && $value !== "*") { 
-                // If a filter has a value, apply exact match
+            if (!empty($value)) {
                 $query .= " AND $column = ?";
                 $params[] = $value;
                 $types .= "s";
             }
         }
+
+        if (empty($mediums) && empty(array_filter($filters))) {
+            $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src FROM MetObjects";
+            $params = []; // No parameters needed
+            $types = "";
+        }
+
+        echo $query;
     
-        // Debugging: Print the final SQL query (before executing)
-        echo "Final Query: " . $query . "<br>";
-        echo "Parameters: " . json_encode($params) . "<br>";
-    
-        // Prepare and execute query
         $stmt = $db->prepare($query);
         if (!empty($params)) {
             $stmt->bind_param($types, ...$params);
@@ -152,9 +201,19 @@
         $result = $stmt->get_result();
     
         $artworks = [];
-        while ($row = $result->fetch_assoc()) {
-            $artworks[] = $row;
-        }
+        // while ($row = $result->fetch_assoc()) {
+        //     $artworks[] = $row;
+        // }
+
+        while ($row = $result->fetch_assoc()) { //save details as an associative array
+            $artworks[] = [
+            'object_id' => $row['object_id'], 
+            'title' => $row['title'], 
+            'artist_id' => $row['artist_id'], 
+            'medium' => $row['medium'], 
+            'dimensions' => $row['dimensions'],
+            'image_src' => $row['image_src']
+        ];}
     
         return $artworks;
     }

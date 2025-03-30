@@ -10,6 +10,7 @@ unset($_SESSION['country']);
 unset($_SESSION['accession_year']);
 unset($_SESSION['culture']);
 
+
 // Redirect back to the browse page
-header("Location: browse.php");
+header("Location: ../public/pages/browse.php");
 exit();

@@ -16,6 +16,7 @@
     
     <script src="../../private/js/filter-medium.js" type="text/javascript"></script>
     <script src="../../private/js/filter-secondary.js" type="text/javascript"></script>
+    <script src="../../private/js/reset-filters.js" type="text/javascript"></script>
 
     <?php if(isset($_SESSION['username'])) {  //if they are signed in, show fave button
       echo "<script src='../../private/js/favourite.js' type='text/javascript'></script>";}
