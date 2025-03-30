@@ -18,7 +18,7 @@
     function getObjectInfo($id){
         global $db;
         $array = []; //default option when not selecting by order number
-        $query_str = "SELECT title, artist_id, medium, dimensions, department, object_name, city, state, country, accession_year, culture FROM MetObjects WHERE object_id = $id";
+        $query_str = "SELECT title, medium, dimensions, department, object_name, city, state, country, culture FROM metobjects WHERE object_id = $id";
         $result = $db->query($query_str); 
 
         while ($row = $result->fetch_assoc()) {   
@@ -56,8 +56,8 @@
     function getFaveArtworks($username){
         global $db;
 
-        $query_str = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
-        FROM MetObjects 
+        $query_str = "SELECT object_id, title, medium, dimensions
+        FROM metobjects 
         WHERE object_id IN (SELECT object_id FROM Member_Favourites WHERE username = '$username');";
 
         $result = $db->query($query_str); 
@@ -68,10 +68,8 @@
             $artworks[] = [
             'object_id' => $row['object_id'], 
             'title' => $row['title'], 
-            'artist_id' => $row['artist_id'], 
             'medium' => $row['medium'], 
             'dimensions' => $row['dimensions'],
-            'image_src' => $row['image_src']
         ];}
         return $artworks;
     }
@@ -84,8 +82,8 @@
         // create '?' placeholders for each selected medium
         $placeholders = implode(',', array_fill(0, count($selected_mediums), '?')); 
 
-        $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
-                FROM MetObjects 
+        $query = "SELECT object_id, title, medium, dimensions
+                FROM metobjects 
                 WHERE medium IN ($placeholders)";
 
         $stmt = $db->prepare($query);
@@ -101,10 +99,9 @@
             $artworks[] = [
             'object_id' => $row['object_id'], 
             'title' => $row['title'], 
-            'artist_id' => $row['artist_id'], 
             'medium' => $row['medium'], 
             'dimensions' => $row['dimensions'],
-            'image_src' => $row['image_src']
+
         ];}
         return $artworks;
     }
@@ -117,10 +114,7 @@
         //TODO: make this work
 
         // $query_filter_string = "";
-
-        // if(isset($secondary_filters['artist_id'])){
-        //     $query_filter_string .= " AND artist_id = " . $secondary_filters['artist'];
-        // }   
+  
         // if(isset($secondary_filters['department'])){
         //     $query_filter_string .= "AND department = " . $secondary_filters['department'];
         // }   
@@ -143,8 +137,8 @@
         // // create '?' placeholders for each selected medium
         // $placeholders = implode(',', array_fill(0, count($selected_mediums), '?')); 
 
-        // $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
-        //         FROM MetObjects 
+        // $query = "SELECT object_id, title, medium, dimensions 
+        //         FROM metobjects 
         //         WHERE medium IN ($placeholders) AND $query_filter_string;";
 
         // $stmt = $db->prepare($query);
@@ -155,7 +149,7 @@
     $placeholders = implode(',', array_fill(0, count($selected_mediums), '?'));
 
     // Base SQL Query
-    $sql = "SELECT object_id, title, artist_id, medium, dimensions, image_src FROM MetObjects WHERE medium IN ($placeholders)";
+    $sql = "SELECT object_id, title, medium, dimensions FROM metobjects WHERE medium IN ($placeholders)";
 
     // Handle secondary filters
     $params = $selected_mediums;
@@ -181,10 +175,8 @@
             $artworks[] = [
             'object_id' => $row['object_id'], 
             'title' => $row['title'], 
-            'artist_id' => $row['artist_id'], 
             'medium' => $row['medium'], 
             'dimensions' => $row['dimensions'],
-            'image_src' => $row['image_src']
         ];}
         return $artworks;
     }

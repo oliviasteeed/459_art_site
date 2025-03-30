@@ -8,28 +8,25 @@ require('header.php');
     }
 
     // get list of mediums from db 
-    $mediums_array = getDbColumn('medium', 'MetObjects');
+    $mediums_array = getDbColumn('medium', 'metobjects');
 
     //get secondary filters from db
-    $artists_array = getDbColumn('artist_id', 'MetObjects'); 
+    $artists_array = getDbColumn('artist_display_name', 'artists'); 
     $artists_array[0] = "select artist"; 
 
-    $department_array = getDbColumn('dimensions', 'MetObjects');
+    $department_array = getDbColumn('dimensions', 'metobjects');
     $department_array[0] = "select department"; 
 
-    $city_array = getDbColumn('city', 'MetObjects');
+    $city_array = getDbColumn('city', 'metobjects');
     $city_array[0] = "select city";
 
-    $state_array = getDbColumn('state', 'MetObjects');
+    $state_array = getDbColumn('state', 'metobjects');
     $state_array[0] = "select state"; 
 
-    $country_array = getDbColumn('country', 'MetObjects');
+    $country_array = getDbColumn('country', 'metobjects');
     $country_array[0] = "select country"; 
 
-    $accession_year_array = getDbColumn('accession_year', 'MetObjects');
-    $accession_year_array[0] = "select accession year";
-
-    $culture_array = getDbColumn('culture', 'MetObjects');
+    $culture_array = getDbColumn('culture', 'metobjects');
     $culture_array[0] = "select culture"; 
 
     $selected_mediums = []; //initialize empty array for which mediums tag buttons are selected
@@ -62,7 +59,6 @@ require('header.php');
     $city = "";
     $state = "";
     $country = "";
-    $accession_year = "";
     $culture = "";
 
     if(isset($_SESSION['artist_id'])){
@@ -80,9 +76,6 @@ require('header.php');
     if(isset($_SESSION['country'])){
         $secondary_filters['country'] = $_SESSION['country'];
     }
-    if(isset($_SESSION['accession-year'])){
-        $secondary_filters['accession_year'] = $_SESSION['accession-year'];
-    }
     if(isset($_SESSION['culture'])){
         $secondary_filters['culture'] = $_SESSION['culture'];
     }
@@ -99,7 +92,7 @@ require('header.php');
 
     $filtered_artworks = getArtworksFiltered($session_mediums, $secondary_filters);    
 
-    print_r($filtered_artworks);
+    // print_r($filtered_artworks);
 
 
 
@@ -123,7 +116,7 @@ require('header.php');
         // echo $mediums;
 
 //         // Prepare statement
-//         $stmt = $db->prepare("SELECT title, artist_id, medium, dimensions FROM MetObjects WHERE medium IN (?)");
+//         $stmt = $db->prepare("SELECT title, artist_id, medium, dimensions FROM metobjects WHERE medium IN (?)");
 //         $stmt->bind_param("s", $mediums_string); // Bind as a string
 
 //         // Execute and fetch results
@@ -170,12 +163,11 @@ echo "<input class='circle-button' type='submit' value='go >'/>";
 echo "</form>";
 
 echo "<h4>artwork details</h4>";
-echo create_select_input("artist", $artists_array);
+// echo create_select_input("artist", $artists_array);
 echo create_select_input("department", $department_array);
 echo create_select_input("city", $city_array);
 echo create_select_input("state", $state_array);
 echo create_select_input("country", $country_array);
-echo create_select_input("accession-year", $accession_year_array);
 echo create_select_input("culture", $culture_array);
 
 // need to use jquery to see when clicked on, save in session, do something, initiate filter by
@@ -183,9 +175,6 @@ echo create_select_input("culture", $culture_array);
 // $_SESSION['username'] = $_POST['username'];
 
 // $_SESSION['mediums_selected'][] = $_POST['mediums_selected'];
-
-
-
 
 
 // create object cards for each artwork
