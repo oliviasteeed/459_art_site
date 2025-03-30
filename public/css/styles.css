@@ -150,7 +150,6 @@ input{
     font-weight: 400;
     font-family: Helvetica, sans-serif;
     width: 25vw;
-    transition: all 0.3s ease-in-out;
 }
 
 input:hover {

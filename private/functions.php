@@ -33,10 +33,6 @@ function display_errors($errors=array()) {
 
   // UI FUNCTIONS
 
-//   function create_tag($tagname){
-//     echo "<button name='medium' class='button'>$tagname</button>";
-// }
-
 // Function to create tag buttons
 function create_tag($tagname, $selected_mediums) {
 
@@ -146,10 +142,7 @@ function create_fave_object_card($object_information){
 }
 
 
-
-
-
-//creates text input component (not used for now because why)
+//creates text input component for sign-up/log-in pages
 function create_text_input($label, $name) {
 
   echo "<label for='name'>$label</label>";
@@ -159,6 +152,38 @@ function create_text_input($label, $name) {
       echo "<input required type=\"text\" name=\"$name\" value=\"$input\">";
   }else{
       echo "<input required type=\"text\" name=\"$name\">";
+  }
+}
+
+
+
+//creates text input component for account details page
+function create_text_input_account($label, $name) {
+
+  echo "<label for='name'>$label</label>";
+  $input = '';    //get text input if set to keep dates visible
+
+  if ($name == 'username' && isset($_SESSION['username'])){  //username is uneditable once input
+    $input = $_SESSION['username'];
+    echo "<input readonly type=\"text\" name=\"$name\" value=\"$input\">";
+    return;
+  }
+
+  if (!strpos($name, 'password')) {  //if not password, show the input
+    if (isset($_POST[$name])){  //if recently set in post
+      $input = $_POST[$name];
+      echo "<input required type=\"text\" name=\"$name\" value=\"$input\">";
+  }
+  else if (isset($_SESSION['username'])){  //if a user is signed in (and they have details already)
+      $input = getUserInfo($_SESSION['username'], $name);
+      echo "<input required type=\"text\" name=\"$name\" value=\"$input\">";
+  }
+  else {
+      echo "<input required type=\"text\" name=\"$name\">";
+  }
+  }
+  else{
+    echo "<input required type=\"text\" name=\"$name\">";
   }
 }
 

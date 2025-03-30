@@ -112,6 +112,15 @@ footer{
     justify-content: space-between;
 }
 
+.button-box-bottom {
+    display: flex;
+    flex-direction: column; 
+    /* gap: 0.5rem;  */
+    border: 1px solid blue; 
+    align-items: flex-end; 
+    justify-content: flex-end;
+}
+
 .artwork-box{
     display: flex;
     flex-wrap: wrap;

@@ -1,5 +1,82 @@
 <?php
 
+// check that there is no duplicate username (sign-up.php)
+function checkUsername($username){
+    global $db;
+    $username_stmt = $db->prepare("SELECT COUNT(*) as count FROM members WHERE username = ?");
+      $username_stmt->bind_param("s", $username);
+
+      // execute prepared statement and get result
+      $username_stmt->execute();
+      $username_result = $username_stmt->get_result();
+      $username_result_row = $username_result->fetch_assoc();
+
+      return $username_result_row;
+}
+
+function addUser($username, $hashed_password, $email, $first_name, $last_name){
+    global $db;
+    $insert_stmt = $db->prepare("INSERT INTO members (username, password_hash, email, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
+        
+    // bind parameters
+    $insert_stmt->bind_param('sssss', $username, $hashed_password, $email, $first_name, $last_name);
+        
+    // execute statement and handle errors
+    if ($insert_stmt->execute()) {
+        $insert_stmt->close();
+        $db->close();
+        return true;
+}
+    return false;
+}
+
+//update individual column of user info (account.php)
+function updateUserInfo($username, $column, $newInfo){
+    global $db;
+
+    //whitelisting columns
+    $allowed_columns = ['email', 'password_hash', 'first_name', 'last_name']; // Add more as needed
+    if (!in_array($column, $allowed_columns)) {
+        return false; // Invalid column, do nothing
+    }
+
+    // update values accordingly
+    $query = "UPDATE members SET $column = ? WHERE username = ?";
+    $stmt = $db->prepare($query);
+
+    if (!$stmt) {
+        return false; // Handle error if prepare fails
+    }
+
+    // Bind parameters
+    $stmt->bind_param('ss', $newInfo, $username);
+
+    // Execute statement and handle errors
+    $result = $stmt->execute();
+    $stmt->close();
+    
+    return $result;
+}
+
+
+// get specified user info (for filling in account details in account.php page)
+function getUserInfo($username, $column){
+    global $db;
+    if ($column == 'password' || $column == 'password_confirm') {
+        $column = 'password_hash';
+    }
+    $query_str = "SELECT $column FROM members WHERE username = '$username'";
+    $result = $db->query($query_str); 
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            return $row[$column];
+        }
+    }
+    return null;
+}
+
+
 //get column value options from database (browse.php)
     function getDbColumn($title, $table){
         global $db;
@@ -93,37 +170,37 @@
     }
 
 
-    //get artworks from database based on selected mediums (browse.php)
-    function getArtworks($selected_mediums){
-        global $db;
+    // //get artworks from database based on selected mediums (browse.php)
+    // function getArtworks($selected_mediums){
+    //     global $db;
     
-        // create '?' placeholders for each selected medium
-        $placeholders = implode(',', array_fill(0, count($selected_mediums), '?')); 
+    //     // create '?' placeholders for each selected medium
+    //     $placeholders = implode(',', array_fill(0, count($selected_mediums), '?')); 
 
-        $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
-                FROM MetObjects 
-                WHERE medium IN ($placeholders)";
+    //     $query = "SELECT object_id, title, artist_id, medium, dimensions, image_src 
+    //             FROM MetObjects 
+    //             WHERE medium IN ($placeholders)";
 
-        $stmt = $db->prepare($query);
-        $types = str_repeat('s', count($selected_mediums)); // 'sss...' for multiple strings
-        $stmt->bind_param($types, ...$selected_mediums);
+    //     $stmt = $db->prepare($query);
+    //     $types = str_repeat('s', count($selected_mediums)); // 'sss...' for multiple strings
+    //     $stmt->bind_param($types, ...$selected_mediums);
 
-        $stmt->execute();
-        $result = $stmt->get_result();
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
 
-        $artworks = [];
+    //     $artworks = [];
             
-        while ($row = $result->fetch_assoc()) { //save details as an associative array
-            $artworks[] = [
-            'object_id' => $row['object_id'], 
-            'title' => $row['title'], 
-            'artist_id' => $row['artist_id'], 
-            'medium' => $row['medium'], 
-            'dimensions' => $row['dimensions'],
-            'image_src' => $row['image_src']
-        ];}
-        return $artworks;
-    }
+    //     while ($row = $result->fetch_assoc()) { //save details as an associative array
+    //         $artworks[] = [
+    //         'object_id' => $row['object_id'], 
+    //         'title' => $row['title'], 
+    //         'artist_id' => $row['artist_id'], 
+    //         'medium' => $row['medium'], 
+    //         'dimensions' => $row['dimensions'],
+    //         'image_src' => $row['image_src']
+    //     ];}
+    //     return $artworks;
+    // }
 
     // // get artworks from database based on selected mediums AND SECONDARY FILTERS (used in get-artworks.php)
     // function getArtworksFiltered($mediums, $filters) {

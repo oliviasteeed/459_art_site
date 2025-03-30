@@ -13,18 +13,14 @@ if(is_post_request()){
     if($_POST['password'] === $_POST['password_confirm']){  //only proceed if entered passwords are the same
 
       //check if there is a user with the same name in the database
-      $username_stmt = $db->prepare("SELECT COUNT(*) as count FROM members WHERE username = ?");
-      $username_stmt->bind_param("s", $_POST['username']);
-
-      // execute prepared statement and get result
-      $username_stmt->execute();
-      $username_result = $username_stmt->get_result();
-      $username_result_row = $username_result->fetch_assoc();
+      $username_result = checkUsername($_POST['username']);
 
       //if count is not 0 that means an account with this username already exists
-      if($username_result_row['count'] != 0){
+      if($username_result['count'] != 0){
         array_push($errors, 'This username is already in use. Please try another one or <a href="log-in.php">log in</a> to your account.');
-      }else{  //if there are no other users with this username, save it to the database
+      }
+      else
+      {  //if there are no other users with this username, save it to the database
 
         //check that email is valid
         if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
@@ -35,46 +31,30 @@ if(is_post_request()){
             
                 $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT); //hash the password
 
-                // prepare statement
-                $insert_stmt = $db->prepare("INSERT INTO members (username, password_hash, email, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
-        
-                // bind parameters
-                $insert_stmt->bind_param('sssss', $_POST['username'], $hashed_password, $_POST['email'], $_POST['first_name'], $_POST['last_name']);
-        
-                // execute statement and handle errors
-                if ($insert_stmt->execute()) {
-                    //save username in session 
+                //adding user details to database
+                if(addUser($_POST['username'], $hashed_password, $_POST['email'], $_POST['first_name'], $_POST['last_name'])){
+                    
+                    //if it works, save username in session 
                     $_SESSION['username'] = $_POST['username'];
-        
-                    // release resources
-                    $insert_stmt->close();
-                    $db->close();
-        
-                    //redirect to browse page but logged in
                     redirect_to('browse.php');
+                }
+                else{ //sql insertion error
+                    array_push($errors, mysqli_error($db));
+                }
+            } 
+            else{ //invalid first and last names
+                    array_push($errors, 'Names cannot include numbers, please try again.');
+                }
 
-            } else {
-                array_push($errors, 'Names cannot include numbers, please try again.');
-            }
-
-           
-
-        } else {    //if email is invalid do not save to database
+            } else {    //if email is invalid do not save to database
             array_push($errors, 'Invalid email address, please try again.');
-        }
-          
-        } else {    // if database error, display error message
-            array_push($errors, mysqli_error($db));
         }
       }
 
     }else{  // if passwords don't match do not save to database
       array_push($errors, "Passwords don't match, please try again :)");
     }
-  }
-
-
-
+} 
 
 
  ?>
@@ -93,7 +73,7 @@ if(is_post_request()){
 
         <div class="v-box m-bottom">
             <h1>sign up for greatness</h1>
-            <p>An account allows you to save your favourites to a new album you can always refer to plus changes the button hover effects to red! Sounds worth it to me.</p>
+            <p>An account allows you to save your faves.<br>You can always change your account details except username later, so don't worry too much about it.</p>
             <!-- show errors from PHP -->
             <?php display_errors($errors); ?>
         </div>

@@ -126,7 +126,7 @@ echo create_select_input("culture", $culture_array);
 echo "</div>";
 
 echo "<div class='button-box flex-1'>";
-echo "<button class='circle-button' id='reset-button'>reset</button>";
+echo "<button class='circle-button' id='reset-button'>reset all</button>";
 echo "</div>";
 
 echo "</div>";

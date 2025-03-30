@@ -40,6 +40,7 @@
     } 
     else{ //if they are not signed in
       echo "<a class='circle-button' href='faves.php'>faves</a>";
+      echo "<a class='circle-button' href='account.php'>account</a>";
       echo "<a class='circle-button' href='log-out.php'>log out</a>";
     }
     ?>
