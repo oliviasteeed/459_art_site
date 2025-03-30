@@ -26,10 +26,12 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
         if(in_array($object_details[0]['object_id'], $faveArtworks)){
             echo "<div class='art-container object-details-page fave-artwork' id='{$object_details[0]['object_id']}'>";
         } 
+        else{
+            echo "<div class='art-container object-details-page' id='{$object_details[0]['object_id']}'>";
+
+            //TODO: make it so you can fave from details page
+    } 
 }
-    else{
-        echo "<div class='art-container object-details-page' id='{$object_details[0]['object_id']}'>";
-} 
 
  ?>
 
@@ -86,7 +88,7 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
                 echo "<a class='circle-button fave-button' href='../../private/favourite.php?object_id=" . urlencode($object_details[0]['object_id']) . "'>unfave &lt;/3</a>";
             }
             else{
-                echo "<a class='circle-button' href='../../private/favourite.php?object_id=" . urlencode($object_details[0]['object_id']) . "'>fave <3 </a>";
+                echo "<a class='circle-button fave-button' href='../../private/favourite.php?object_id=" . urlencode($object_details[0]['object_id']) . "'>fave <3</a>";
             }  
             }
         ?>

@@ -15,17 +15,13 @@ if (isset($_SESSION['username'])){
     }
     else{
         // create object cards for each artwork
-        echo "<div class='artwork-box'>";
+        echo "<div class='artwork-box' id='artwork-box'>";
         foreach($artworks as $a){
             create_object_card($a);
         }
         echo "</div>";
-
     }
 }
-
-
-
 
 
 

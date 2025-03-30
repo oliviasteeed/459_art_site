@@ -36,7 +36,6 @@ $(document).ready(function () {
             .fail(function (res) {
                 console.log('error');
             });
-            //TODO: unfave function
 
         }else{  //if already a favourite, show unfave and remove from db
             console.log('already a fave, removing it');
@@ -50,6 +49,9 @@ $(document).ready(function () {
                 url: '../../private/favourite.php',
                 type: 'POST',
                 data: { id: object_id , fave: "False"},
+                success: function (response) {
+                    $("#artwork-box").html(response);
+                }
             })
             .done(function (res) {
                 alert(res);
