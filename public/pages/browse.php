@@ -4,7 +4,8 @@ require('../../private/initialize.php');
 require('header.php');
 
  if(isset($_SESSION['username'])) {
-    // get set filters and make them set (jquery?)
+
+
     }
 
     // get list of mediums from db 
@@ -19,8 +20,8 @@ require('header.php');
     $department_array = getDbColumn('department', 'MetObjects');
     $department_array[0] = "select department"; 
 
-    // $dimensions_array = getDbColumn('dimensions', 'MetObjects');
-    // $dimensions_array[0] = "select dimensions"; 
+    $dimensions_array = getDbColumn('dimensions', 'MetObjects');
+    $dimensions_array[0] = "select dimensions"; 
 
     $city_array = getDbColumn('city', 'MetObjects');
     $city_array[0] = "select city";
@@ -42,6 +43,7 @@ require('header.php');
     $secondary_filters = [
         'artist_id' => $_SESSION['artist_id'] ?? null,
         'department' => $_SESSION['department'] ?? null,
+        'dimensions' => $_SESSION['dimensions'] ?? null,
         'city' => $_SESSION['city'] ?? null,
         'state' => $_SESSION['state'] ?? null,
         'country' => $_SESSION['country'] ?? null,
@@ -113,12 +115,13 @@ echo "<h4>artwork details</h4>";
 echo "<div class='h-box'>";
 
 echo "<div class='flex-3'>";
-echo create_select_input("artist", $artists_array);
+echo create_select_input("artist_id", $artists_array);
 echo create_select_input("department", $department_array);
+echo create_select_input("dimensions", $dimensions_array);
 echo create_select_input("city", $city_array);
 echo create_select_input("state", $state_array);
 echo create_select_input("country", $country_array);
-echo create_select_input("accession-year", $accession_year_array);
+echo create_select_input("accession_year", $accession_year_array);
 echo create_select_input("culture", $culture_array);
 echo "</div>";
 
@@ -146,7 +149,14 @@ foreach($artworks as $a){
 }
 echo "</div>";
 
-
+if (empty($artworks)) {
+    // echo "<div class='page-card'>";
+    echo "<div class='v-box'>";
+    echo "<h1>No results :,(</h1>";
+    echo "<p>Try different filters, or reset all filters to keep browsing artworks.</p>";
+    echo "</div>";
+    // echo "</div>";
+}
 
 
 

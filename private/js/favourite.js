@@ -1,30 +1,22 @@
 $(document).ready(function () {
     $(".art-container").on("mouseenter", function() {
         $(this).find(".fave-button").removeClass("hidden");
-        console.log("in it");
     });
 
     $(".art-container").on("mouseleave", function() {
         $(this).find(".fave-button").addClass("hidden");
-        console.log("out of it");
     });
 
-    // go to details page when clicked
-    // $(".art-container").on("click", function() {
 
-    //     let object_id = $(this).attr("id");
-    //     window.location.href = "details.php?id=" + object_id;
-
-    //     $(this).find(".fave-button").addClass("hidden");
-    // });
-
+    //add favourite when clicked
     $(".fave-button").on("click", function(event) {
         event.preventDefault();
         event.stopPropagation();
 
         //if not already a favourite, favourite it and add to db
         if(!($(this).closest(".art-container").hasClass("fave-artwork"))){
-            // console.log('not already a fave, adding it');
+            console.log('not already a fave, adding it');
+
             $(this).text('unfave </3');
             $(this).closest(".art-container").addClass("fave-artwork");
 
@@ -36,7 +28,7 @@ $(document).ready(function () {
             $.ajax({
                 url: '../../private/favourite.php',
                 type: 'POST',
-                data: { id: object_id , fave:true},
+                data: { id: object_id , fave: "True"},
             })
             .done(function (res) {
                 alert(res);
@@ -57,13 +49,13 @@ $(document).ready(function () {
             $.ajax({
                 url: '../../private/favourite.php',
                 type: 'POST',
-                data: { id: object_id , fave: false},
+                data: { id: object_id , fave: "False"},
             })
             .done(function (res) {
                 alert(res);
             })
             .fail(function (res) {
-                console.log('error');
+                console.log('error', res);
             });
 
 

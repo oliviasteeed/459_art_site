@@ -71,15 +71,23 @@ function create_select_option($option_name, $o, $name) {
 
 
 
-
+// creates card for artwork with some information about them
 function create_object_card($object_information){
   $id = $object_information['object_id'];
   $title = $object_information['title'];
   $artist_id = $object_information['artist_id'];
   $medium = $object_information['medium'];
   $dimensions = $object_information['dimensions'];
-
   $image = $object_information['image_src'];
+
+  if (isset($_SESSION['username'])){  //if faves are set, check if this object is in the faves
+    $faveArtworks = getFaves($_SESSION['username']);
+    if(in_array($id, $faveArtworks)){
+      create_fave_object_card($object_information);
+      return;
+    }
+  }
+
   echo "<div class='v-box art-container' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
   echo "<div class='img-container'>";
@@ -96,7 +104,7 @@ function create_object_card($object_information){
   echo "</div>";
 
   // favourite button only visible if you are logged in
-  echo "<div class='v-box flex-1'>";
+  echo "<div class='v-box button-box flex-1'>";
   echo "<a class='circle-button fave-button hidden' href='../../private/favourite.php?object_id=" . urlencode($id) . "'>fave <3</a>";
   echo "</div>";
 
@@ -104,8 +112,38 @@ function create_object_card($object_information){
   echo "</div>";
 }
 
+// creates fave artwork card (red bg)
+function create_fave_object_card($object_information){
+  $id = $object_information['object_id'];
+  $title = $object_information['title'];
+  $artist_id = $object_information['artist_id'];
+  $medium = $object_information['medium'];
+  $dimensions = $object_information['dimensions'];
 
+  $image = $object_information['image_src'];
+  echo "<div class='v-box art-container fave-artwork' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
+  echo "<div class='img-container'>";
+  echo "<img class='browse-image' src='$image'>";
+  echo "</div>";
+  
+  echo "<div class='h-box'>";
+
+  echo "<div class='v-box flex-2'>";
+  echo "<h4>$title</h4>";
+  echo "<p>$artist_id</p>";
+  echo "<p>$medium</p>";
+  echo "<p>($dimensions)</p>";
+  echo "</div>";
+
+  // favourite button only visible if you are logged in
+  echo "<div class='v-box button-box flex-1'>";
+  echo "<a class='circle-button fave-button hidden' href='../../private/favourite.php?object_id=" . urlencode($id) . "'>unfave &lt;/3</a>";
+  echo "</div>";
+
+  echo "</div>";
+  echo "</div>";
+}
 
 
 

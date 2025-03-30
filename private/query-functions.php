@@ -18,7 +18,7 @@
     function getObjectInfo($id){
         global $db;
         $array = []; //default option when not selecting by order number
-        $query_str = "SELECT title, artist_id, medium, dimensions, department, object_name, city, state, country, accession_year, culture FROM MetObjects WHERE object_id = $id";
+        $query_str = "SELECT object_id, title, artist_id, medium, dimensions, department, object_name, city, state, country, accession_year, culture, image_src FROM MetObjects WHERE object_id = $id";
         $result = $db->query($query_str); 
 
         while ($row = $result->fetch_assoc()) {   
@@ -26,6 +26,22 @@
         };
 
         return $array;
+    }
+
+    // get list of favourite artworks
+    function getFaves($username){
+        global $db;
+        $query_str = "SELECT object_id FROM Member_Favourites WHERE username = '$username'";
+        $result = $db->query($query_str); 
+
+        $faves = [];
+            
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $faves[] = $row['object_id'];
+            }
+        }
+        return $faves;
     }
 
       //insert new fave to db

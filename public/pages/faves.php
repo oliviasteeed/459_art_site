@@ -6,13 +6,12 @@ $artworks = [];
 if (isset($_SESSION['username'])){
     $artworks = getFaveArtworks($_SESSION['username']); 
     if(count($artworks) == "0"){
-        echo "<div class='page-card'>";
+        // echo "<div class='page-card'>";
         echo "<div class='v-box'>";
         echo "<h1>You have no faves :,(</h1>";
         echo "<p>How sad. You should head over <a href='browse.php'>here</a> to find some.</p>";
         echo "</div>";
-        echo "</div>";
-        //TODO: persist faves over pages - also show red and unfave here - have them remove with ajax if so
+        // echo "</div>";
     }
     else{
         // create object cards for each artwork

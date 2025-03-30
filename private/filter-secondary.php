@@ -16,6 +16,7 @@ $mediums = isset($_SESSION['medium']) ? $_SESSION['medium'] : [];
 $secondary_filters = [
     'artist_id' => $_SESSION['artist_id'] ?? null,
     'department' => $_SESSION['department'] ?? null,
+    'dimensions' => $_SESSION['dimensions'] ?? null,
     'city' => $_SESSION['city'] ?? null,
     'state' => $_SESSION['state'] ?? null,
     'country' => $_SESSION['country'] ?? null,
@@ -35,27 +36,6 @@ foreach ($artworks as $a) {
 }
 
 echo $output;
-
-// require_once('initialize.php');
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['filter']) && isset($_POST['value'])) {
-//     $filter = $_POST['filter'];
-//     $value = $_POST['value'];
-
-//     // if not the default empty value, save
-//     if(!str_contains($value, "select")){
-//         $_SESSION[$filter] = $value;
-
-//     echo "filter-secondary: Filter '$filter' set to '$value'";
-//     }
-//     else{
-//         // if default value is selected, unset the session variable
-//         unset($_SESSION[$filter]);
-//         echo "filter-secondary: Filter '$filter' unset"; 
-//     }
-// } else {
-//     echo "Invalid request.";
-// }
 
 
 ?>
