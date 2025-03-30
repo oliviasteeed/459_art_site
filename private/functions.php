@@ -73,9 +73,10 @@ function create_object_card($object_information){
   $title = $object_information['title'];
   $medium = $object_information['medium'];
   $dimensions = $object_information['dimensions'];
+  $artist = $object_information['artist_display_name'];
 
-  // $image = "img/" . $id . ".jpg";
-  $image = "https://media.timeout.com/images/106006274/1920/1440/image.webp";
+  $image = "../../img/" . $id . ".jpg";
+  // $image = "https://media.timeout.com/images/106006274/1920/1440/image.webp";
   echo "<div class='v-box art-container' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
   echo "<div class='img-container'>";
@@ -87,6 +88,7 @@ function create_object_card($object_information){
   echo "<div class='v-box flex-2'>";
   echo "<h4>$title</h4>";
   echo "<p>$medium</p>";
+  echo "<p>by: $artist</p>";
   echo "<p>($dimensions)</p>";
   echo "</div>";
 

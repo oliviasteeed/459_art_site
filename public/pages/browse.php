@@ -61,8 +61,8 @@ require('header.php');
     $country = "";
     $culture = "";
 
-    if(isset($_SESSION['artist_id'])){
-        $secondary_filters['artist_id'] = $_SESSION['artist_id'];    
+    if(isset($_SESSION['artist_display_name'])){
+        $secondary_filters['artist_display_name'] = $_SESSION['artist_display_name'];    
     }
     if(isset($_SESSION['department'])){
         $secondary_filters['department'] = $_SESSION['department'];

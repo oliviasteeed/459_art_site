@@ -82,8 +82,14 @@
         // create '?' placeholders for each selected medium
         $placeholders = implode(',', array_fill(0, count($selected_mediums), '?')); 
 
-        $query = "SELECT object_id, title, medium, dimensions
-                FROM metobjects 
+        $query = "SELECT 
+                    metobjects.object_id, 
+                    metobjects.title, 
+                    metobjects.medium, 
+                    metobjects.dimensions, 
+                    artists.artist_display_name
+                FROM metobjects
+                LEFT JOIN artists ON metobjects.object_id = artists.artist_id
                 WHERE medium IN ($placeholders)";
 
         $stmt = $db->prepare($query);
@@ -101,7 +107,7 @@
             'title' => $row['title'], 
             'medium' => $row['medium'], 
             'dimensions' => $row['dimensions'],
-
+            'artist_display_name' => $row['artist_display_name'],
         ];}
         return $artworks;
     }
