@@ -132,12 +132,12 @@ echo "</div>";
 echo "</div>";
 
 
-// need to use jquery to see when clicked on, save in session, do something, initiate filter by
 
-// $_SESSION['username'] = $_POST['username'];
+// TODO: PAGINATION 10
+// TODO: INTEGRATE WITH DB
 
-// $_SESSION['mediums_selected'][] = $_POST['mediums_selected'];
-
+// TODO: ARTIST DETAILS PAGE? LINKS?
+// TODO: COMMENTS
 
 
 
