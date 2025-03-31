@@ -40,7 +40,7 @@
             </div>
 
             <div class='details-img-box'>
-                <img class='details-img' src='https://media.timeout.com/images/106006274/1920/1440/image.webp'>
+                <img class='details-img' src='../../img/34.jpg'>
             </div>
 
             <div class="v-box m-bottom">

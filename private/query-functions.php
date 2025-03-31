@@ -18,11 +18,42 @@
     function getObjectInfo($id){
         global $db;
         $array = []; //default option when not selecting by order number
-        $query_str = "SELECT title, medium, dimensions, department, object_name, city, state, country, culture FROM metobjects WHERE object_id = $id";
+        $query_str = "SELECT 
+                    title, medium, dimensions, department, object_name, city, state, country, culture 
+                    FROM metobjects 
+                    WHERE object_id = $id";
         $result = $db->query($query_str); 
 
         while ($row = $result->fetch_assoc()) {   
             array_push($array, $row);
+        };
+
+        return $array;
+    }
+
+    //get artist info for the object (object-details.php)
+    function getArtistInfo($id){
+        global $db;
+        $array = []; //default option when not selecting by order number
+        $temp_str = "";
+        $query_str = "SELECT 
+                    artist_role, artist_display_name
+                    FROM artists 
+                    WHERE artist_id = $id";
+        $result = $db->query($query_str); 
+
+        while ($row = $result->fetch_assoc()) {   
+
+            // remove the seperators for when there's multiple artists
+            $roles = (explode('|', $row['artist_role']));
+            $names = (explode('|', $row['artist_display_name']));
+
+            // combine them in the new order
+            for($i = 0; $i < count($roles); $i++){
+                $temp_str .= $roles[$i].": ".$names[$i]."<br />";
+            }
+            array_push($array, $temp_str);
+
         };
 
         return $array;

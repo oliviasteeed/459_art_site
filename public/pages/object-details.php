@@ -12,10 +12,12 @@ if(isset($_SESSION['username'])) {
 
 
 $object_details = [];   //array to save details
+$artist_details = [];
 
 if(isset($_GET['object_id'])) {    //this should always be set - gives id to get all artwork information with
-    echo "id is set";
+    // echo "id is set";
     $object_details = getObjectInfo($_GET['object_id']);
+    $artist_details = getArtistInfo($_GET['object_id']);
 }
 
 
@@ -36,13 +38,17 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
             <div class="v-box m-bottom">
                 <?php 
                 echo "<h1>".$object_details[0]['title'] ."</h1>";
-                echo "<p>".$object_details[0]['artist_id'] ."</p>";
+                // echo "<p>".$object_details[0]['artist_display_name'] ."</p>";
                 echo "<p>".$object_details[0]['medium']." (".$object_details[0]['dimensions'].")<p>";
+                echo "<p>".$artist_details[0]."</p>";
                 ?>
             </div>
 
             <div class='details-img-box'>
-                <img class='details-img' src='https://media.timeout.com/images/106006274/1920/1440/image.webp'>
+            <?php
+                $image = "../../img/" . $_GET['object_id'] . ".jpg";
+                echo "<img class='details-img' src='" . $image . "'>";
+            ?>
             </div>
 
             <div class="v-box m-bottom">
@@ -50,7 +56,6 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
                 <?php
                 echo "<p>".$object_details[0]['city'].", ".$object_details[0]['state'].", ".$object_details[0]['country']."</p>";
                 echo "<p>".$object_details[0]['culture']."</p>";
-                echo "<p>".$object_details[0]['accession_year']."</p>";
                 echo "<p>".$object_details[0]['department']."</p>";
                 ?>
             </div>
