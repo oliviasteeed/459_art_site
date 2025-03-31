@@ -121,4 +121,18 @@ function create_text_input($label, $name) {
 }
 
 
+function create_editable_profile_field($label, $name, $value) {
+  
+  echo "<label for='name'>$label</label>";
+  $input = '';    //get text input if set to keep dates visible
+  if (isset($_POST[$name])){
+      $input = $_POST[$name];
+      echo "<input required type=\"text\" name=\"$name\" value=\"$input\">";
+  }else{
+      echo "<input required type=\"text\" name=\"$name\" value=\"$value\">";
+  }
+}
+
+
 ?>
+

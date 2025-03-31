@@ -59,6 +59,20 @@
         return $array;
     }
 
+    function getUserInfo($username){
+        global $db;
+        $array = [];
+        $query_str = "SELECT username, email, first_name, last_name FROM members
+                     WHERE username = '$username'";
+        $result = $db->query($query_str); 
+
+        while ($row = $result->fetch_assoc()) {   
+            array_push($array, $row);
+        };
+
+        return $array;
+    }
+
       //insert new fave to db
       function insertFave($username, $object_id){
         global $db;
