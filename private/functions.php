@@ -76,7 +76,6 @@ function create_object_card($object_information){
   $artist = $object_information['artist_display_name'];
 
   $image = "../../img/" . $id . ".jpg";
-  // $image = "https://media.timeout.com/images/106006274/1920/1440/image.webp";
   echo "<div class='v-box art-container' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
   echo "<div class='img-container'>";

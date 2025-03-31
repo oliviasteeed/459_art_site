@@ -87,8 +87,14 @@
     function getFaveArtworks($username){
         global $db;
 
-        $query_str = "SELECT object_id, title, medium, dimensions
-        FROM metobjects 
+        $query_str = "SELECT 
+                    metobjects.object_id, 
+                    metobjects.title, 
+                    metobjects.medium, 
+                    metobjects.dimensions, 
+                    artists.artist_display_name
+                FROM metobjects
+                LEFT JOIN artists ON metobjects.object_id = artists.artist_id
         WHERE object_id IN (SELECT object_id FROM Member_Favourites WHERE username = '$username');";
 
         $result = $db->query($query_str); 
@@ -101,6 +107,7 @@
             'title' => $row['title'], 
             'medium' => $row['medium'], 
             'dimensions' => $row['dimensions'],
+            'artist_display_name' => $row['artist_display_name'],
         ];}
         return $artworks;
     }
