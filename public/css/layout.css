@@ -7,7 +7,7 @@
 
 .inner-container{
     min-height:100vh;
-    padding:3rem;
+    padding:1rem;
     border:1px solid green;
 }
 
@@ -64,6 +64,7 @@ footer{
     height: 100%; 
     object-fit: cover; 
     border-radius: 10px;
+    background-color: #f5f6f7;
 }
 
 /* details page image */
@@ -102,6 +103,19 @@ footer{
     margin-bottom: 2rem;
 }
 
+.centered-box {
+    margin-top:1rem;
+    display: flex;
+    flex-direction: column; 
+    border: 1px solid blue; 
+    align-items: center;
+}
+
+.centered-buttons{
+    display: flex;
+    flex-direction:row;
+    border: 1px solid red; 
+}
 
 .button-box {
     display: flex;
@@ -140,4 +154,24 @@ footer{
 
 .flex-3{
     flex:3;
+}
+
+.tag-box{
+    display: flex;
+    flex-wrap: wrap;
+    gap:0;
+    border: 1px solid blue; 
+    align-items: flex-start; 
+}
+
+.dropdown-box{
+    display: flex;
+    flex-wrap: wrap;
+    gap:0;
+    border: 1px solid blue; 
+    align-items: flex-start; 
+}
+
+.footer-box{
+    width:20rem;
 }

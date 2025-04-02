@@ -13,7 +13,7 @@ $(document).ready(function () {
         }
         else {
             this.classList.add("selected");
-            selectedTagsContainer.append(`<input type='hidden' name='medium[]' value='${value}'>`);
+            selectedTagsContainer.append(`<input type='hidden' name='culture[]' value='${value}'>`);
         }
     });
 

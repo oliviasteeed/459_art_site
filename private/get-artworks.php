@@ -1,8 +1,9 @@
 <?php
+//idek if this is called
 require_once('initialize.php');
 
 // Get stored filters
-$mediums = isset($_SESSION['medium']) ? $_SESSION['medium'] : [];
+$culture = isset($_SESSION['culture']) ? $_SESSION['culture'] : [];
 
 // check if secondary filters are set, if so add to query string, at the end make a query with it
     $secondary_filters = [];
@@ -11,11 +12,11 @@ $mediums = isset($_SESSION['medium']) ? $_SESSION['medium'] : [];
     $city = "";
     $state = "";
     $country = "";
-    $accession_year = "";
-    $culture = "";
+    $object_name = "";
+    $medium = "";
 
-    if(isset($_SESSION['artist_id'])){
-        $secondary_filters['artist_id'] = $_SESSION['artist_id'];    
+    if(isset($_SESSION['artist_display_name'])){
+        $secondary_filters['artist_display_name'] = $_SESSION['artist_display_name'];    
     }
     if(isset($_SESSION['department'])){
         $secondary_filters['department'] = $_SESSION['department'];
@@ -29,17 +30,17 @@ $mediums = isset($_SESSION['medium']) ? $_SESSION['medium'] : [];
     if(isset($_SESSION['country'])){
         $secondary_filters['country'] = $_SESSION['country'];
     }
-    if(isset($_SESSION['accession-year'])){
-        $secondary_filters['accession_year'] = $_SESSION['accession-year'];
+    if(isset($_SESSION['medium'])){
+        $secondary_filters['medium'] = $_SESSION['medium'];
     }
-    if(isset($_SESSION['culture'])){
-        $secondary_filters['culture'] = $_SESSION['culture'];
+    if(isset($_SESSION['object_name'])){
+        $secondary_filters['object_name'] = $_SESSION['object_name'];
     }
 
-print_r($secondary_filters);
+// print_r($secondary_filters);
 
 // Fetch artworks based on filters
-$artworks = getArtworksFiltered($mediums, $secondary_filters);
+$artworks = getArtworksFiltered($culture, $secondary_filters);
 
 $output = "";
 if (count($artworks) > 0) {

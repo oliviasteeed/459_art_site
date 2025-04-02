@@ -19,9 +19,8 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
     // $object_details = getObjectInfo($_GET['object_id']);
     $object_details = getObjectInfo($_GET['object_id']);
     $artist_details = getArtistInfo($_GET['object_id']);
-}
 
-
+    //if they have a username check if this is a fave
     if (isset($_SESSION['username'])) {
         $faveArtworks = getFaves($_SESSION['username']);
 
@@ -34,6 +33,21 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
             //TODO: make it so you can fave from details page
     } 
 }
+else{   //echo start of divs even if not logged in
+    echo "<div class='art-container object-details-page' id='{$object_details[0]['object_id']}'>";
+}
+
+
+
+}else{
+    //show error here
+}
+
+
+
+
+
+
 
  ?>
 
@@ -50,10 +64,11 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
         <div class="v-box">
             <div class="v-box">
                 <?php 
-                echo "<h1>".$object_details[0]['title'] ."</h1>";
-                echo "<p class='italic'>".$object_details[0]['artist_display_name'] ."</p>";
-                echo "<p>".$object_details[0]['medium']."</p>";
-                echo "<p class='dimensions'>(".$object_details[0]['dimensions'].")<p>";
+                $artist = $object_details[0]['artist_display_name'] ?? 'No artist information';
+                $title = $object_details[0]['title'] ?? 'No title information';
+
+                echo "<h1>".$title."</h1>";
+                echo "<p class='italic'>".$artist."</p>";
                 ?>
             </div>
 
@@ -69,10 +84,22 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
             <div class="v-box">
                 <h4>the details</h4>
                 <?php
-                echo "<p>Location: ".$object_details[0]['city'].", ".$object_details[0]['state'].", ".$object_details[0]['country']."</p>";
-                echo "<p>Culture: ".$object_details[0]['culture']."</p>";
-                // echo "<p>Accession Year: ".$object_details[0]['accession_year']."</p>";
-                echo "<p>Department: ".$object_details[0]['department']."</p>";
+
+                $medium = $object_details[0]['medium'] ?? 'No medium information';
+                $object_name = $object_details[0]['object_name'] ?? 'No object name information';
+                $dimensions = $object_details[0]['dimensions'] ?? 'No dimensions information';
+                $city = $object_details[0]['city'] ?? 'No city information';
+                $state = $object_details[0]['state'] ?? 'no state information';
+                $country = $object_details[0]['country'] ?? 'no country information';
+                $culture = $object_details[0]['culture'] ?? 'No culture information';
+                $department = $object_details[0]['department'] ?? 'No department information';
+
+                echo "<p><strong>Object Type:</strong> ".$object_name."</p>";
+                echo "<p><strong>Medium:</strong> ".$medium."</p>";
+                echo "<p><strong>Dimensions:</strong> ".$dimensions."<p>";
+                echo "<p><strong>Location:</strong> ".$city.", ".$state.", ".$country."</p>";
+                echo "<p><strong>Culture</strong> ".$culture."</p>";
+                echo "<p><strong>Department:</strong> ".$department."</p>";
                 ?>
             </div>
         </div>

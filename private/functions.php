@@ -29,15 +29,19 @@ function display_errors($errors=array()) {
     return $output;
   }
 
+  //shorten text to certain length so all cards are same size
+  function truncateText($text, $maxLength) {
+    return strlen($text) > $maxLength ? substr($text, 0, $maxLength) . '...' : $text;
+}
 
 
   // UI FUNCTIONS
 
 // Function to create tag buttons
-function create_tag($tagname, $selected_mediums) {
+function create_tag($tagname, $selected_tags) {
 
   $selected_marker = "";
-  if(in_array($tagname, $selected_mediums)){  //if this tag is selected, add selected tag
+  if(in_array($tagname, $selected_tags)){  //if this tag is selected, add selected tag
     $selected_marker = "selected";
   }
   echo "<button type='button' class='tag-button button $selected_marker' data-value='$tagname'>$tagname</button>";
@@ -70,11 +74,18 @@ function create_select_option($option_name, $o, $name) {
 // creates card for artwork with some information about them
 function create_object_card($object_information){
   $id = $object_information['object_id'];
-  $title = $object_information['title'];
-  $artist = $object_information['artist_display_name'];
-  $medium = $object_information['medium'];
-  $dimensions = $object_information['dimensions'];
+  $title = truncateText($object_information['title'], 20);
+  $artist = truncateText($object_information['artist_display_name'], 25);
+  $medium = truncateText($object_information['medium'], 25);
+  $dimensions = truncateText($object_information['dimensions'], 35);
+
   $image = "../../img/" . $id . ".jpg";
+
+  //placeholder image
+  // clearstatcache(); // use placeholder if no image
+  // if (!is_readable($image)) { 
+  //     $image = "../../img/placeholder.png"; 
+  // }
 
   if (isset($_SESSION['username'])){  //if faves are set, check if this object is in the faves
     $faveArtworks = getFaves($_SESSION['username']);
@@ -111,10 +122,10 @@ function create_object_card($object_information){
 // creates fave artwork card (red bg)
 function create_fave_object_card($object_information){
   $id = $object_information['object_id'];
-  $title = $object_information['title'];
-  $artist = $object_information['artist_display_name'];
-  $medium = $object_information['medium'];
-  $dimensions = $object_information['dimensions'];
+  $title = truncateText($object_information['title'], 20);
+  $artist = truncateText($object_information['artist_display_name'], 25);
+  $medium = truncateText($object_information['medium'], 25);
+  $dimensions = truncateText($object_information['dimensions'], 35);
   $image = "../../img/" . $id . ".jpg";
 
   echo "<div class='v-box art-container fave-artwork' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
