@@ -15,6 +15,10 @@ $(document).ready(function () {
 
             success: function (response) {
                 $("#artwork-box").html(response);
+            
+                // update amount of results
+                let count = $("#artwork-box").children().length;
+                $("#results-amount").html(count + " results");
             }
         });
     });

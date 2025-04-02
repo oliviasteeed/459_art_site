@@ -24,14 +24,14 @@ $(document).ready(function () {
 
             // console.log("Object ID:", object_id);
     
-            //ajax call to filter based on medium
+            //ajax call to filter based on culture
             $.ajax({
                 url: '../../private/favourite.php',
                 type: 'POST',
                 data: { id: object_id , fave: "True"},
             })
             .done(function (res) {
-                alert(res);
+                alert("Item favourited :D");
             })
             .fail(function (res) {
                 console.log('error');
@@ -44,7 +44,7 @@ $(document).ready(function () {
             $(this).closest(".art-container").removeClass("fave-artwork");
             let object_id = $(this).closest(".art-container").attr("id");
 
-            //ajax call to filter based on medium
+            //ajax call to filter based on culture
             $.ajax({
                 url: '../../private/favourite.php',
                 type: 'POST',
@@ -54,7 +54,7 @@ $(document).ready(function () {
                 }
             })
             .done(function (res) {
-                alert(res);
+                alert("Item removed from favourites :(");
             })
             .fail(function (res) {
                 console.log('error', res);

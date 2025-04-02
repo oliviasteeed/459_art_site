@@ -85,6 +85,7 @@ footer{
     display:flex;
     flex-direction:column;
     align-content: flex-start;
+    /* border:#FF5C00 1px solid; */
 }
 
 

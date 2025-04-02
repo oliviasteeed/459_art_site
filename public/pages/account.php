@@ -64,7 +64,7 @@ if(is_post_request()){
  ?>
 
  
-<div class="page-card">
+<div class="page-card  m-bottom">
 
         <div class="v-box">
             <div class="h-box small-m-bottom">

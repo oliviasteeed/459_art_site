@@ -74,6 +74,7 @@ require('header.php');
 // ACTUAL UI
 
 echo "<div class='left-align'>";
+
 echo "<h1 class='small-m-bottom'>i'm interested in...</h1>";
 
 //create tags for each medium
@@ -118,8 +119,21 @@ echo "</div>";
 echo "<div class='button-box flex-1'>";
 echo "<button class='circle-button' id='reset-button'>reset all</button>";
 echo "</div>";
-
 echo "</div>";
+
+// amount of results
+echo "<div class='result-number-box'>";
+if (count($artworks) == 1){
+    echo "<p id='results-amount' class='m-bottom'>".count($artworks)." results</p>";
+}
+else if (count($artworks) < 1){
+    echo "<p id='results-amount' class='m-bottom'>No results</p>";
+}
+else{
+    echo "<p id='results-amount' class='m-bottom'>".count($artworks)." results</p>";
+}
+echo "</div>";
+
 echo "</div>";
 
 
