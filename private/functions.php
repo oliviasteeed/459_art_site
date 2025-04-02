@@ -71,10 +71,10 @@ function create_select_option($option_name, $o, $name) {
 function create_object_card($object_information){
   $id = $object_information['object_id'];
   $title = $object_information['title'];
-  $artist_id = $object_information['artist_id'];
+  $artist = $object_information['artist_display_name'];
   $medium = $object_information['medium'];
   $dimensions = $object_information['dimensions'];
-  $image = $object_information['image_src'];
+  $image = "../../img/" . $id . ".jpg";
 
   if (isset($_SESSION['username'])){  //if faves are set, check if this object is in the faves
     $faveArtworks = getFaves($_SESSION['username']);
@@ -94,9 +94,9 @@ function create_object_card($object_information){
 
   echo "<div class='v-box flex-2'>";
   echo "<h4>$title</h4>";
-  echo "<p>$artist_id</p>";
-  echo "<p>$medium</p>";
-  echo "<p>($dimensions)</p>";
+  echo "<p class='artist-name'>$artist</p>";
+  echo "<p class='object-name'>$medium</p>";
+  echo "<p class='dimensions'>($dimensions)</p>";
   echo "</div>";
 
   // favourite button only visible if you are logged in
@@ -112,11 +112,11 @@ function create_object_card($object_information){
 function create_fave_object_card($object_information){
   $id = $object_information['object_id'];
   $title = $object_information['title'];
-  $artist_id = $object_information['artist_id'];
+  $artist = $object_information['artist_display_name'];
   $medium = $object_information['medium'];
   $dimensions = $object_information['dimensions'];
+  $image = "../../img/" . $id . ".jpg";
 
-  $image = $object_information['image_src'];
   echo "<div class='v-box art-container fave-artwork' id='$id' onclick='location.href=\"object-details.php?object_id=" . urlencode($id) . "\";'>";
 
   echo "<div class='img-container'>";
@@ -127,9 +127,9 @@ function create_fave_object_card($object_information){
 
   echo "<div class='v-box flex-2'>";
   echo "<h4>$title</h4>";
-  echo "<p>$artist_id</p>";
-  echo "<p>$medium</p>";
-  echo "<p>($dimensions)</p>";
+  echo "<p class='artist-name'>$artist</p>";
+  echo "<p class='object-name'>$medium</p>";
+  echo "<p class='dimensions'>($dimensions)</p>";
   echo "</div>";
 
   // favourite button only visible if you are logged in

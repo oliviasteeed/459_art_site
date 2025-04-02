@@ -16,7 +16,9 @@ $object_details = [];   //array to save details
 
 if(isset($_GET['object_id'])) {    //this should always be set - gives id to get all artwork information with
     // echo "id is set";
+    // $object_details = getObjectInfo($_GET['object_id']);
     $object_details = getObjectInfo($_GET['object_id']);
+    $artist_details = getArtistInfo($_GET['object_id']);
 }
 
 
@@ -49,15 +51,18 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
             <div class="v-box">
                 <?php 
                 echo "<h1>".$object_details[0]['title'] ."</h1>";
-                echo "<p>".$object_details[0]['artist_id'] ."</p>";
-                echo "<p>".$object_details[0]['medium']." (".$object_details[0]['dimensions'].")<p>";
+                echo "<p class='italic'>".$object_details[0]['artist_display_name'] ."</p>";
+                echo "<p>".$object_details[0]['medium']."</p>";
+                echo "<p class='dimensions'>(".$object_details[0]['dimensions'].")<p>";
                 ?>
             </div>
 
             <div class='details-img-box'>
                 <?php
-                    $image_path = $object_details[0]['image_src'];
-                    echo "<img class='details-img' src='{$image_path}'>";
+                    // $image_path = $object_details[0]['image_src'];
+                    $image = "../../img/" . $_GET['object_id'] . ".jpg";
+                    echo "<img class='details-img' src='" . $image . "'>";
+                    // echo "<img class='details-img' src='{$image_path}'>";
                 ?>
             </div>
 
@@ -66,7 +71,7 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
                 <?php
                 echo "<p>Location: ".$object_details[0]['city'].", ".$object_details[0]['state'].", ".$object_details[0]['country']."</p>";
                 echo "<p>Culture: ".$object_details[0]['culture']."</p>";
-                echo "<p>Accession Year: ".$object_details[0]['accession_year']."</p>";
+                // echo "<p>Accession Year: ".$object_details[0]['accession_year']."</p>";
                 echo "<p>Department: ".$object_details[0]['department']."</p>";
                 ?>
             </div>

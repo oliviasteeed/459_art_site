@@ -208,3 +208,21 @@ label{
     letter-spacing: -0.5px;
 
 }
+
+/* object card text styling */
+.artist-name{
+    font-style: italic;
+    font-size:0.9rem;
+}
+
+.object-name{
+    font-size:0.9rem;
+}
+
+.dimensions{
+    font-size: 0.7rem;
+}
+
+.italic{
+    font-style:italic;
+}
