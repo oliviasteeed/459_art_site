@@ -67,7 +67,7 @@ if(is_post_request()){
 <div class="page-card">
 
         <div class="v-box">
-            <div class="h-box m-bottom">
+            <div class="h-box small-m-bottom">
                 <div class='v-box'>
                     <h1>edit account details</h1>
                     <!-- show errors from PHP -->
@@ -82,7 +82,7 @@ if(is_post_request()){
                 <div class="h-box m-bottom">    
                     <div class="v-box">
                             <h3>update account details</h3>
-                            <p>To update account details, change the desired field, and enter your current password to confirm. <br>Note that you cannot change your username.</p> 
+                            <p class='small-m-bottom'>To update account details, change the desired field, and enter your current password to confirm. Note that you cannot change your username.</p> 
 
                             <div class="h-box m-bottom">
                                 <div class="v-box">
@@ -121,7 +121,7 @@ if(is_post_request()){
                 <div class="h-box m-bottom">    
                     <div class="v-box">
                             <h3>update password</h3>
-                            <p>To update your password, please type your current password, and then your new password.</p> 
+                            <p class='small-m-bottom'>To update your password, please type your current password, and then your new password.</p> 
 
                             <div class="h-box">
                                 <div class="v-box">

@@ -73,25 +73,28 @@ require('header.php');
 
 // ACTUAL UI
 
-echo "<h1>i'm interested in...</h1>";
+echo "<div class='left-align'>";
+echo "<h1 class='small-m-bottom'>i'm interested in...</h1>";
 
 //create tags for each medium
 echo "<h4>culture of origin</h4>";
 
 // form for culture filters
-echo "<form class='h-box' action='browse.php' method='post'>";
+echo "<form class='h-box small-m-bottom' action='browse.php' method='post'>";
 echo "<div class='h-box tag-box flex-3'>";
+//making visible tags
 foreach($culture_array as $c){
     create_tag($c, $selected_cultures);
 }
 echo "</div>";
-// hidden input container for storing selected medium tags (since they are buttons not form elements)
+// hidden input container for storing selected tags (since they are buttons not form elements)
 echo "<div id='selected-tags'>";
 if(isset($_SESSION['culture'])){    //put selected tags in post request always
-    foreach($_SESSION['culture'] as $s){
+    foreach($_SESSION['culture'] as $c){
         echo "<input type='hidden' name='culture[]' value='$c'>";
     }
 }
+
 echo "</div>";
 echo "<div class='button-box flex-1'>";
 echo "<input class='circle-button' type='submit' value='go >'/>";
@@ -100,7 +103,7 @@ echo "</form>";
 
 // secondary filter dropdowns (ajax)
 echo "<h4>artwork details</h4>";
-echo "<div class='h-box'>";
+echo "<div class='h-box m-bottom'>";
 
 echo "<div class='dropdown-box flex-3'>";
 echo create_select_input("artist_display_name", $artists_array);
@@ -117,11 +120,12 @@ echo "<button class='circle-button' id='reset-button'>reset all</button>";
 echo "</div>";
 
 echo "</div>";
+echo "</div>";
 
 
 
-// TODO: ARTIST DETAILS PAGE? LINKS?
 // TODO: COMMENTS
+//TODO: fix filtering mexican
 
 
 //handling pagination
@@ -133,8 +137,8 @@ $page = max(1, min($page, $totalPages));    //keep page within max range
 $startIndex = ($page - 1) * $perPage;   //get only first page
 $displayArtworks = array_slice($artworks, $startIndex, $perPage);
 
-// display artworks
-echo "<div class='artwork-box' id='artwork-box'>";
+// // display artworks
+echo "<div class='artwork-box m-bottom' id='artwork-box'>";
 foreach ($displayArtworks as $a) {
     create_object_card($a);
 }

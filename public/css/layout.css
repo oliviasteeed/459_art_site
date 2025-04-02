@@ -2,13 +2,13 @@
 /* main container */
 .outer-container{
     margin:20px;
-    border:1px solid red;
+    /* border:1px solid red; */
 }
 
 .inner-container{
     min-height:100vh;
     padding:1rem;
-    border:1px solid green;
+    /* border:1px solid green; */
 }
 
 
@@ -81,6 +81,12 @@ footer{
     border-radius: 10px;
 }
 
+.left-align{
+    display:flex;
+    flex-direction:column;
+    align-content: flex-start;
+}
+
 
 /* general use */
 .h-box{
@@ -88,7 +94,7 @@ footer{
     flex:1;
     flex-direction:row;
     gap:0.25rem;
-    border: 1px red solid;
+    /* border: 1px red solid; */
 }
 
 .v-box{
@@ -96,32 +102,36 @@ footer{
     flex:1;
     flex-direction:column;
     gap:0.25rem;
-    border: 1px pink solid;
+    /* border: 1px pink solid; */
 }
 
 .m-bottom{
     margin-bottom: 2rem;
 }
 
+.small-m-bottom{
+    margin-bottom: 0.5rem;
+}
+
 .centered-box {
     margin-top:1rem;
     display: flex;
     flex-direction: column; 
-    border: 1px solid blue; 
+    /* border: 1px solid blue;  */
     align-items: center;
 }
 
 .centered-buttons{
     display: flex;
     flex-direction:row;
-    border: 1px solid red; 
+    /* border: 1px solid red;  */
 }
 
 .button-box {
     display: flex;
     flex-direction: column; 
     /* gap: 0.5rem;  */
-    border: 1px solid blue; 
+    /* border: 1px solid blue;  */
     align-items: flex-end; 
     justify-content: space-between;
 }
@@ -130,18 +140,19 @@ footer{
     display: flex;
     flex-direction: column; 
     /* gap: 0.5rem;  */
-    border: 1px solid blue; 
+    /* border: 1px solid blue;  */
     align-items: flex-end; 
     justify-content: flex-end;
 }
 
 .artwork-box{
     display: flex;
+    flex:1;
     flex-wrap: wrap;
     gap: 0.5rem; 
-    border: 1px solid orange; 
+    /* border: 1px solid orange;  */
     align-items: flex-start; 
-    /* justify-content: space-between; */
+    width:100%;
 }
 
 .flex-1{
@@ -160,7 +171,7 @@ footer{
     display: flex;
     flex-wrap: wrap;
     gap:0;
-    border: 1px solid blue; 
+    /* border: 1px solid blue;  */
     align-items: flex-start; 
 }
 
@@ -168,7 +179,7 @@ footer{
     display: flex;
     flex-wrap: wrap;
     gap:0;
-    border: 1px solid blue; 
+    /* border: 1px solid blue;  */
     align-items: flex-start; 
 }
 

@@ -10,10 +10,12 @@ $(document).ready(function () {
         if(this.classList.contains("selected")) {
             this.classList.remove("selected");
             selectedTagsContainer.find(`input[value='${value}']`).remove();
+            console.log("deselected", this);
         }
         else {
             this.classList.add("selected");
             selectedTagsContainer.append(`<input type='hidden' name='culture[]' value='${value}'>`);
+            console.log("selected", this);
         }
     });
 

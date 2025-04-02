@@ -134,7 +134,7 @@ function getUserInfo($username, $column){
         $array = []; //default option when not selecting by order number
         $temp_str = "";
         $query_str = "SELECT 
-                    artist_role, artist_display_name
+                    artist_role, artist_display_name, artist_display_bio
                     FROM artists 
                     WHERE artist_id = $id";
         $result = $db->query($query_str); 

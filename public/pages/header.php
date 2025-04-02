@@ -48,7 +48,7 @@
 </div>
   </nav>
 
-  <div class="inner-container">
+  <div class="inner-container centered-box">
 
 
 <!-- header end -->

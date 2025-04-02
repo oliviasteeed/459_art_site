@@ -25,16 +25,16 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
         $faveArtworks = getFaves($_SESSION['username']);
 
         if(in_array($object_details[0]['object_id'], $faveArtworks)){
-            echo "<div class='art-container object-details-page fave-artwork' id='{$object_details[0]['object_id']}'>";
+            echo "<div class='art-container object-details-page fave-artwork m-bottom' id='{$object_details[0]['object_id']}'>";
         } 
         else{
-            echo "<div class='art-container object-details-page' id='{$object_details[0]['object_id']}'>";
+            echo "<div class='art-container object-details-page m-bottom' id='{$object_details[0]['object_id']}'>";
 
             //TODO: make it so you can fave from details page
     } 
 }
 else{   //echo start of divs even if not logged in
-    echo "<div class='art-container object-details-page' id='{$object_details[0]['object_id']}'>";
+    echo "<div class='art-container object-details-page m-bottom' id='{$object_details[0]['object_id']}'>";
 }
 
 
@@ -74,10 +74,8 @@ else{   //echo start of divs even if not logged in
 
             <div class='details-img-box'>
                 <?php
-                    // $image_path = $object_details[0]['image_src'];
                     $image = "../../img/" . $_GET['object_id'] . ".jpg";
                     echo "<img class='details-img' src='" . $image . "'>";
-                    // echo "<img class='details-img' src='{$image_path}'>";
                 ?>
             </div>
 
