@@ -24,6 +24,9 @@ if (isset($_SESSION['username'])){
         echo "</div>";
     }
 }
+else{   //redirect to browse if they somehow got here and are not logged in
+    redirect_to(url_for('index.php'));
+}
 
 
 

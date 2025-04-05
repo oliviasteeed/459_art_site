@@ -17,10 +17,6 @@ require('header.php');
     $artists_array = getDbColumn('artist_display_name', 'artists'); 
     $artists_array[0] = "select artist"; 
 
-    //this doesn't work??? ?? ?????? it should be the same as all the others though??
-    $department_array = getDbColumn('department', 'metobjects');
-    $department_array[0] = "select department"; 
-
     $dimensions_array = getDbColumn('dimensions', 'metobjects');
     $dimensions_array[0] = "select dimensions"; 
 
@@ -44,7 +40,6 @@ require('header.php');
 
     $secondary_filters = [
         'artist_display_name' => $_SESSION['artist_display_name'] ?? null,
-        'department' => $_SESSION['department'] ?? null,
         'dimensions' => $_SESSION['dimensions'] ?? null,
         'city' => $_SESSION['city'] ?? null,
         'state' => $_SESSION['state'] ?? null,
@@ -108,7 +103,6 @@ echo "<div class='h-box m-bottom'>";
 
 echo "<div class='dropdown-box flex-3'>";
 echo create_select_input("artist_display_name", $artists_array);
-echo create_select_input("department", $department_array);
 echo create_select_input("medium", $medium_array);
 echo create_select_input("object_name", $object_array);
 echo create_select_input("city", $city_array);
@@ -136,10 +130,6 @@ echo "</div>";
 
 echo "</div>";
 
-
-
-// TODO: COMMENTS
-//TODO: fix filtering mexican
 
 
 //handling pagination
@@ -171,7 +161,7 @@ echo "</div>";
 echo "</div>";
 
 
-
+//no results message if no filter results
 if (empty($artworks)) {
     echo "<div class='v-box'>";
     echo "<h1>No results :,(</h1>";

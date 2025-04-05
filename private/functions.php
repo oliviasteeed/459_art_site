@@ -198,5 +198,22 @@ function create_text_input_account($label, $name) {
   }
 }
 
+//get comments from comments table
+function get_comments($id){
+  global $db;
+  $comments=[];
+
+  $query_str = "SELECT username, comment, created_at FROM comments 
+              WHERE object_id = $id 
+              ORDER BY created_at DESC";
+  $result = $db->query($query_str); 
+
+  while ($row = $result->fetch_assoc()) {   
+      array_push($comments, $row);
+  };
+
+  return $comments;
+}
+
 
 ?>

@@ -30,7 +30,6 @@ if(isset($_GET['object_id'])) {    //this should always be set - gives id to get
         else{
             echo "<div class='art-container object-details-page m-bottom' id='{$object_details[0]['object_id']}'>";
 
-            //TODO: make it so you can fave from details page
     } 
 }
 else{   //echo start of divs even if not logged in
@@ -79,8 +78,8 @@ else{   //echo start of divs even if not logged in
                 ?>
             </div>
 
-            <div class="v-box">
-                <h4>the details</h4>
+            <div class="v-box m-bottom">
+                <h3 class='small-m-bottom'>the details</h3>
                 <?php
 
                 $medium = $object_details[0]['medium'] ?? 'No medium information';
@@ -101,6 +100,58 @@ else{   //echo start of divs even if not logged in
                 ?>
             </div>
         </div>
+
+
+
+        <?php
+        // handle comments
+
+        echo "<h3 class='small-m-bottom'>comments</h3>";
+
+    if(isset($_SESSION['username'])) {
+
+        echo "<div class='v-box'>";
+
+        echo"<form method='post' action='../../private/comment.php'> ";
+        
+        echo "<input type='hidden' name='object_id' value='". htmlspecialchars($_GET['object_id']) ."' > ";
+        echo "<input type='hidden' name='username' value='". htmlspecialchars($_SESSION['username']) ."' > ";
+
+        echo "<lable>add a comment<br></lable> ";
+
+        echo "<div class='h-box'>";
+        echo "<div>";
+        echo "<textarea class='comment-box' name='comment' rows='8' placeholder='write here...'></textarea> ";
+        echo "</div>";
+
+        echo "<input type='submit' class='circle-button' value='post'> ";
+        echo "</div>";
+        echo "</form>";
+        echo "</div>";
+
+    }
+
+    $comments = get_comments(htmlspecialchars($_GET['object_id']));
+
+    // echo "<h3>comments</h3>";
+    
+
+    if(!empty($comments)){
+        foreach ($comments as $c) {
+            echo "<div class='v-box m-bottom'>";
+            $formatted_date = (new DateTime($c['created_at']))->format('M j, Y');
+
+            echo "<h4>".$c['username']." on ".$formatted_date."</h4>";
+            echo "<p>".$c['comment']."</p>";
+
+            echo "</div>";
+        }
+    }else{
+        echo "<p>be the first to leave a comment ;)</p>";
+    }
+
+    //end of comments
+    ?>
 
 
       
